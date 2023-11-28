@@ -22,6 +22,8 @@ def data_entry_page(department, test_activity):
     st.title(selected_test_activity)
     # Add data entry fields for the specified department and test activity
 
+
+
     # Example: Text input for data entry
     for entry in department_details[department][test_activity]["entry_fields"]:
         data_entry_field = st.text_input(f"{entry}:")
