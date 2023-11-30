@@ -28,21 +28,19 @@ def tyre_wear_page(department, test_activity, department_details):
                     "variables": []
                 }
 
-            expander_list[sub_class]["variables"].append({"variable_name": entry["name"],
-                                                          "st_input_type": entry["st_input_type"]})
-
-
-    expander_list["td"] = {"expander": st.expander("test_data"), "variables": []}
+            expander_list[sub_class]["variables"].append(
+                {"variable_name": entry["name"], "st_input_type": entry["st_input_type"], "hide": entry["hide"]})
 
 
     # print(expander_list)
 
     for sub_class in expander_list.keys():
         for variable in expander_list[sub_class]["variables"]:
-            if variable["st_input_type"] == "selectbox":
-                expander_list[sub_class]["expander"].selectbox(variable["variable_name"], options=["Front", "Rear"])
-            else:
-                expander_list[sub_class]["expander"].text_input(variable["variable_name"])
+            if not variable["hide"] == 1:
+                if variable["st_input_type"] == "selectbox":
+                    expander_list[sub_class]["expander"].selectbox(variable["variable_name"], options=["Front", "Rear"])
+                else:
+                    expander_list[sub_class]["expander"].text_input(variable["variable_name"])
 
 
 def emission_page(department, test_activity, department_details):
