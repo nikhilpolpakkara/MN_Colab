@@ -20,7 +20,7 @@ def tyre_wear_page(department, test_activity, department_details):
     expander_list = {}
 
     for entry in tyre_wear_doc["test_data"]:
-        if entry["class"] == "itr":
+        if entry["class"] in ["itr", "td"]:
             sub_class = entry["sub_class"]
             if sub_class not in expander_list.keys():
                 expander_list[sub_class] = {
@@ -52,7 +52,7 @@ def emission_page(department, test_activity, department_details):
 # Main App
 def main():
     client = MongoClient("mongodb://localhost:27017/")
-    db = client["common"]
+    db = client["TNV"]
     department_details = db["department_details"]
 
     st.sidebar.title("Select Department and Test Activity")
