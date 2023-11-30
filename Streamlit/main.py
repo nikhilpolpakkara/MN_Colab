@@ -38,18 +38,29 @@ def tyre_wear_page(department, test_activity, department_details):
         for variable in expander_list[sub_class]["variables"]:
             if not variable["hide"] == 1:
                 if variable["st_input_type"] == "selectbox":
-                    expander_list[sub_class]["expander"].selectbox(variable["variable_name"], options=["Front", "Rear"])
+                    expander_list[sub_class]["expander"].selectbox(variable["variable_name"], options=["Front", "Rear"],
+                                                                   key = variable["variable_name"])
                 else:
-                    expander_list[sub_class]["expander"].text_input(variable["variable_name"])
+                    expander_list[sub_class]["expander"].text_input(variable["variable_name"],key = variable["variable_name"])
+
+def mandatory_fields(department, test_activity, department_details, entries):
+    doc = Mongodb_querries.get_document_from_nested_array(
+        collection=department_details,
+        collection_filter={'name': department},
+        nested_array="test_activity",
+        array_document_filter={"field_name": 'name', "field_value": test_activity})
+    for entry in doc["test_data"]:
+        if (entry['required'] == 1) & (entries[entry['name']] == ""):
+            return entry['name']
 
 
 def emission_page(department, test_activity, department_details):
     st.title(test_activity)
 
-def save_to_mongodb(collection, document_data):
+def save_to_mongodb(collection, document_data, pass_message):
     # Insert the document into the MongoDB collection
     result = collection.insert_one(document_data)
-
+    if 
     # Check if the insertion was successful
     if result.inserted_id:
         st.success("Document saved to MongoDB successfully!")
@@ -81,6 +92,16 @@ def main():
     elif selected_test_activity == 'emission':
         emission_page(selected_department, selected_test_activity,department_details)
 
-
+    # Trigger an action, e.g., button click, to save the document
+    if st.button("Save Document"):
+        # print(st.session_state)
+        # document_data = {}
+        message = mandatory_fields(selected_department, selected_test_activity,department_details, st.session_state)
+        if message is not None:
+            pass_message = f"Please enter {message} field"
+            print("-----------------")
+            print(pass_message)
+        save_to_mongodb(tyre_wear_collection, st.session_state, pass_message)
+    mandatory_fields(selected_department, selected_test_activity,department_details, st.session_state)
 if __name__ == "__main__":
     main()
