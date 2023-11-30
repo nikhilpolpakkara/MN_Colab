@@ -1,131 +1,78 @@
 import streamlit as st
-
 from pymongo import MongoClient
 
+import Mongodb_querries
 
 
-def reset_page():
-    for key in st.session_state.keys():
-        st.session_state.key = ''
-    # print(st.session_state.values)
-
-def tyre_wear_page(department, test_activity,department_details):
+def tyre_wear_page(department, test_activity, department_details):
     st.title(test_activity)
-    # Add data entry fields for the specified department and test activity
+    #
+    # # Example: Save button
+    # if st.button("Save"):
+    #     st.success(f"Data saved for {department} - {test_activity}")
+    tyre_wear_doc = Mongodb_querries.get_document_from_nested_array(
+        collection=department_details,
+        collection_filter={'name': department},
+        nested_array="test_activity",
+        array_document_filter={"field_name": 'name', "field_value": test_activity}
+        )
 
-    pipeline = [
-        {"$match": {"name": department}},  # Match the document by its ID
-        {"$project": {
-            "test_activity": {
-                "$filter": {
-                    "input": "$test_activity",
-                    "as": "activity",
-                    "cond": {"$eq": ["$$activity.name", test_activity]}
+    expander_list = {}
+
+    for entry in tyre_wear_doc["test_data"]:
+        if entry["class"] == "itr":
+            sub_class = entry["sub_class"]
+            if sub_class not in expander_list.keys():
+                expander_list[sub_class] = {
+                    "expander": st.expander(sub_class),
+                    "variables": []
                 }
-            },
-            "_id": 0
-        }}
-    ]
 
-    # Execute the aggregation pipeline
-    result = list(department_details.aggregate(pipeline))[0]['test_activity'][0]
+            expander_list[sub_class]["variables"].append({"variable_name": entry["name"],
+                                                          "st_input_type": entry["st_input_type"]})
 
 
-    input_data = [d for d in result['test_data']['itr']['basic_details']]+\
-                 [d for d in result['test_data']['itr']['vehicle_details']]+ \
-                 [d for d in result['test_data']['itr']['component_details']]+\
-                 [d for d in result['test_data']['ptr']]
-    # Example: Text input for data entry
-
-    for entry in input_data:
-        st.text_input(f"{entry}:",key=f"{test_activity}_{entry}", value="")
+    expander_list["td"] = {"expander": st.expander("test_data"), "variables": []}
 
 
+    # print(expander_list)
 
-    # Add more data entry fields as needed
+    for sub_class in expander_list.keys():
+        for variable in expander_list[sub_class]["variables"]:
+            if variable["st_input_type"] == "selectbox":
+                expander_list[sub_class]["expander"].selectbox(variable["variable_name"], options=["Front", "Rear"])
+            else:
+                expander_list[sub_class]["expander"].text_input(variable["variable_name"])
 
-    # Example: Save button
-    if st.button("Save"):
-        st.success(f"Data saved for {department} - {test_activity}")
-
-    # Add a reset button next to the Save button
-    if st.button("Reset"):
-        st.session_state.tyre_wear_remarks = ""
-        # reset_page()
 
 def emission_page(department, test_activity, department_details):
-    print("inside_de")
     st.title(test_activity)
-    # Add data entry fields for the specified department and test activity
 
-    pipeline = [
-        {"$match": {"name": department}},  # Match the document by its ID
-        {"$project": {
-            "test_activity": {
-                "$filter": {
-                    "input": "$test_activity",
-                    "as": "activity",
-                    "cond": {"$eq": ["$$activity.name", test_activity]}
-                }
-            },
-            "_id": 0
-        }}
-    ]
-
-    # Execute the aggregation pipeline
-    result = list(department_details.aggregate(pipeline))[0]['test_activity'][0]
-
-    input_data = [d for d in result['test_data']['itr']['basic_details']]+\
-                 [d for d in result['test_data']['itr']['vehicle_details']]+ \
-                 [d for d in result['test_data']['itr']['component_details']]+\
-                 [d for d in result['test_data']['ptr']]
-
-    # Example: Text input for data entry
-    for entry in input_data:
-        st.text_input(f"{entry}:",key=f"{test_activity}_{entry}", value="")
-
-    if st.button("Save"):
-        st.success(f"Data saved for {department} - {test_activity}")
-
-    # Add a reset button
-    if st.button("Reset"):
-        reset_page()
 
 # Main App
 def main():
-    # Connect to the local MongoDB server (you can replace this with your connection string)
     client = MongoClient("mongodb://localhost:27017/")
-
-    # Access a specific database (it will be created if it doesn't exist)
     db = client["common"]
     department_details = db["department_details"]
 
     st.sidebar.title("Select Department and Test Activity")
 
-
-    # Display a dropdown to select the department
-    pipeline = [{"$project": {"_id": 0, 'dept_name': '$name'}}]
-    result = list(department_details.aggregate(pipeline))
-    dept_names = [doc["dept_name"] for doc in result]
+    dept_names = Mongodb_querries.get_field_values_from_collection(collection= department_details, field_name='name')
 
     selected_department = st.sidebar.selectbox("Select Department", dept_names)
 
-
-    # Display a dropdown to select the test activity within the selected department
-    pipeline = [
-        {"$match": {"name": selected_department}},
-        {"$unwind": "$test_activity"},
-        {"$project": {"test_activity.name": 1, "_id": 0}}
-    ]
-    activity_list = [doc['test_activity']['name'] for doc in list(department_details.aggregate(pipeline))]
+    activity_list = Mongodb_querries.get_field_values_from_nested_array(collection=department_details,
+                                                                        collection_field_name='test_activity',
+                                                                        array_field_name='name',
+                                                                        filter={'name': selected_department})
     selected_test_activity = st.sidebar.selectbox("Select Test Activity", activity_list)
-
 
     # Display the data entry page based on the selected department and test activity
     if selected_test_activity == 'tyre_wear':
         tyre_wear_page(selected_department, selected_test_activity,department_details)
     elif selected_test_activity == 'emission':
         emission_page(selected_department, selected_test_activity,department_details)
+
 
 if __name__ == "__main__":
     main()
