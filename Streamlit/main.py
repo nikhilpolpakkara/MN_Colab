@@ -46,12 +46,22 @@ def tyre_wear_page(department, test_activity, department_details):
 def emission_page(department, test_activity, department_details):
     st.title(test_activity)
 
+def save_to_mongodb(collection, document_data):
+    # Insert the document into the MongoDB collection
+    result = collection.insert_one(document_data)
+
+    # Check if the insertion was successful
+    if result.inserted_id:
+        st.success("Document saved to MongoDB successfully!")
+    else:
+        st.error("Error saving document to MongoDB.")
 
 # Main App
 def main():
     client = MongoClient("mongodb://localhost:27017/")
     db = client["TNV"]
     department_details = db["department_details"]
+    tyre_wear_collection = db["tyre_wear"]
 
     st.sidebar.title("Select Department and Test Activity")
 
