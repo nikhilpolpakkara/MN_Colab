@@ -12,6 +12,7 @@ db = client["TNV"]
 line_color = "#2a9df4"
 
 
+
 def tyre_wear_page(department, test_activity, department_details):
 
     st.title(f":blue[{test_activity.upper()}]")
@@ -81,9 +82,9 @@ def tyre_wear_page(department, test_activity, department_details):
             document_data["date_time"] = datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S')
             save_to_mongodb("tyre_wear", document_data)
 
-
 def emission_page(department, test_activity, department_details):
     st.title(test_activity.upper())
+
 
 
 def save_to_mongodb(collection_name, document_data):
@@ -100,28 +101,46 @@ def save_to_mongodb(collection_name, document_data):
 # Main App
 def main():
     department_details = db["department_details"]
-
-    st.sidebar.title(":blue[SELECT DEPARTMENT & TEST ACTIVITY]")
-
+    
+    st.sidebar.title("TNV APP")
     st.sidebar.markdown(f'<hr style="border-top: 1px solid {line_color};">', unsafe_allow_html=True)
 
-    dept_names = Mongodb_querries.get_field_values_from_collection(collection= department_details, field_name='name')
+    analytics_expander = st.sidebar.expander("ANALYTICS", expanded=True)
+    entry_expander = st.sidebar.expander("DATA ENTRY", expanded=True)
 
-    selected_department = st.sidebar.selectbox(("Select Department").upper(), dept_names)
-    st.sidebar.markdown("<br>", unsafe_allow_html=True)
-    activity_list = Mongodb_querries.get_field_values_from_nested_array(collection=department_details,
+    with analytics_expander:
+        st.write("Analytics")
+
+    with entry_expander:
+
+        st.sidebar.title(":blue[SELECT DEPARTMENT & TEST ACTIVITY]")
+        dept_names = Mongodb_querries.get_field_values_from_collection(collection=department_details,
+                                                                       field_name='name')
+
+
+        selected_department = st.sidebar.selectbox(("Select Department").upper(), dept_names)
+        st.sidebar.markdown("<br>", unsafe_allow_html=True)
+        activity_list = Mongodb_querries.get_field_values_from_nested_array(collection=department_details,
                                                                         collection_field_name='test_activity',
                                                                         array_field_name='name',
                                                                         filter={'name': selected_department})
-    selected_test_activity = st.sidebar.selectbox(("Select Test Activity").upper(), activity_list)
+        selected_test_activity = st.sidebar.selectbox(("Select Test Activity").upper(), activity_list)
+
+        selected_department = st.selectbox("Select Department", dept_names)
+
+        activity_list = Mongodb_querries.get_field_values_from_nested_array(collection=department_details,
+                                                                            collection_field_name='test_activity',
+                                                                            array_field_name='name',
+                                                                            filter={'name': selected_department})
+        selected_test_activity = st.selectbox("Select Test Activity", activity_list)
+
 
     # Display the data entry page based on the selected department and test activity
     if selected_test_activity == 'tyre_wear':
-        tyre_wear_page(selected_department, selected_test_activity,department_details)
+        tyre_wear_page(selected_department, selected_test_activity, department_details)
     elif selected_test_activity == 'emission':
-        emission_page(selected_department, selected_test_activity,department_details)
+        emission_page(selected_department, selected_test_activity, department_details)
 
-    # Trigger an action, e.g., button click, to save the document
 
 
 if __name__ == "__main__":
