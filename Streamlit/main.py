@@ -6,11 +6,12 @@ import Mongodb_querries
 client = MongoClient("mongodb://localhost:27017/")
 db = client["TNV"]
 
-
 def tyre_wear_page(department, test_activity, department_details):
-    # print(test_activity)
-    # st.title(test_activity)
-
+    st.title(test_activity)
+    #
+    # # Example: Save button
+    # if st.button("Save"):
+    #     st.success(f"Data saved for {department} - {test_activity}")
     tyre_wear_doc = Mongodb_querries.get_document_from_nested_array(
         collection=department_details,
         collection_filter={'name': department},
@@ -33,6 +34,9 @@ def tyre_wear_page(department, test_activity, department_details):
                 {"variable_name": entry["name"], "st_input_type": entry["st_input_type"], "hide": entry["hide"],
                  "required": entry["required"]})
 
+
+    # print(expander_list)
+
     for sub_class in expander_list.keys():
         for variable in expander_list[sub_class]["variables"]:
             label_extension = " *" if (variable["required"] == 1) else ""
@@ -45,6 +49,7 @@ def tyre_wear_page(department, test_activity, department_details):
                     expander_list[sub_class]["expander"].text_input(variable["variable_name"] + label_extension,
                                                                     key=variable["variable_name"])
 
+    tyre_wear_collection = db["tyre_wear"]
     if st.button("Save Document"):
         for entry in tyre_wear_doc["test_data"]:
             if (entry['required'] == 1) & (st.session_state[entry['name']] == ""):
@@ -57,26 +62,28 @@ def tyre_wear_page(department, test_activity, department_details):
             save_to_mongodb("tyre_wear", st.session_state)
 
 
+
 def emission_page(department, test_activity, department_details):
     st.title(test_activity)
 
-
 def save_to_mongodb(collection_name, document_data):
     # Insert the document into the MongoDB collection
-    result = db[collection_name].insert_one(document_data)
+    collection = db[collection_name]
+    result = collection.insert_one(document_data)
     # Check if the insertion was successful
     if result.inserted_id:
         st.success("Document saved to MongoDB successfully!")
     else:
         st.error("Error saving document to MongoDB.")
 
-
-def data_entry_page():
+# Main App
+def main():
     department_details = db["department_details"]
+
 
     st.sidebar.title("Select Department and Test Activity")
 
-    dept_names = Mongodb_querries.get_field_values_from_collection(collection=department_details, field_name='name')
+    dept_names = Mongodb_querries.get_field_values_from_collection(collection= department_details, field_name='name')
 
     selected_department = st.sidebar.selectbox("Select Department", dept_names)
 
@@ -88,32 +95,11 @@ def data_entry_page():
 
     # Display the data entry page based on the selected department and test activity
     if selected_test_activity == 'tyre_wear':
-        tyre_wear_page(selected_department, selected_test_activity, department_details)
+        tyre_wear_page(selected_department, selected_test_activity,department_details)
     elif selected_test_activity == 'emission':
-        emission_page(selected_department, selected_test_activity, department_details)
+        emission_page(selected_department, selected_test_activity,department_details)
 
-
-def home_page():
-    st.title = "HOME"
-    col1, col2 = st.columns(2)
-    with col1:
-        st.button("ANALYTICS")
-
-    with col2:
-        st.button("DATA ENTRY", on_click=data_entry_page)
-
-
-counter = 0
-
-
-# Main App
-def main():
-    global counter
-    counter += 1
-    if counter == 1:
-        home_page()
-    print(counter)
-
+    # Trigger an action, e.g., button click, to save the document
 
 if __name__ == "__main__":
     main()
