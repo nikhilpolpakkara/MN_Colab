@@ -6,6 +6,7 @@ import Mongodb_querries
 client = MongoClient("mongodb://localhost:27017/")
 db = client["TNV"]
 
+
 def tyre_wear_page(department, test_activity, department_details):
     st.title(test_activity)
     #
@@ -34,7 +35,6 @@ def tyre_wear_page(department, test_activity, department_details):
                 {"variable_name": entry["name"], "st_input_type": entry["st_input_type"], "hide": entry["hide"],
                  "required": entry["required"]})
 
-
     # print(expander_list)
 
     for sub_class in expander_list.keys():
@@ -49,7 +49,6 @@ def tyre_wear_page(department, test_activity, department_details):
                     expander_list[sub_class]["expander"].text_input(variable["variable_name"] + label_extension,
                                                                     key=variable["variable_name"])
 
-    tyre_wear_collection = db["tyre_wear"]
     if st.button("Save Document"):
         for entry in tyre_wear_doc["test_data"]:
             if (entry['required'] == 1) & (st.session_state[entry['name']] == ""):
@@ -62,9 +61,9 @@ def tyre_wear_page(department, test_activity, department_details):
             save_to_mongodb("tyre_wear", st.session_state)
 
 
-
 def emission_page(department, test_activity, department_details):
     st.title(test_activity)
+
 
 def save_to_mongodb(collection_name, document_data):
     # Insert the document into the MongoDB collection
@@ -76,30 +75,38 @@ def save_to_mongodb(collection_name, document_data):
     else:
         st.error("Error saving document to MongoDB.")
 
+
 # Main App
 def main():
     department_details = db["department_details"]
 
+    st.sidebar.title("TNV APP")
 
-    st.sidebar.title("Select Department and Test Activity")
+    analytics_expander = st.sidebar.expander("ANALYTICS", expanded=True)
+    entry_expander = st.sidebar.expander("DATA ENTRY", expanded=True)
 
-    dept_names = Mongodb_querries.get_field_values_from_collection(collection= department_details, field_name='name')
+    with analytics_expander:
+        st.write("Analytics")
 
-    selected_department = st.sidebar.selectbox("Select Department", dept_names)
+    with entry_expander:
 
-    activity_list = Mongodb_querries.get_field_values_from_nested_array(collection=department_details,
-                                                                        collection_field_name='test_activity',
-                                                                        array_field_name='name',
-                                                                        filter={'name': selected_department})
-    selected_test_activity = st.sidebar.selectbox("Select Test Activity", activity_list)
+        dept_names = Mongodb_querries.get_field_values_from_collection(collection=department_details,
+                                                                       field_name='name')
+
+        selected_department = st.selectbox("Select Department", dept_names)
+
+        activity_list = Mongodb_querries.get_field_values_from_nested_array(collection=department_details,
+                                                                            collection_field_name='test_activity',
+                                                                            array_field_name='name',
+                                                                            filter={'name': selected_department})
+        selected_test_activity = st.selectbox("Select Test Activity", activity_list)
 
     # Display the data entry page based on the selected department and test activity
     if selected_test_activity == 'tyre_wear':
-        tyre_wear_page(selected_department, selected_test_activity,department_details)
+        tyre_wear_page(selected_department, selected_test_activity, department_details)
     elif selected_test_activity == 'emission':
-        emission_page(selected_department, selected_test_activity,department_details)
+        emission_page(selected_department, selected_test_activity, department_details)
 
-    # Trigger an action, e.g., button click, to save the document
 
 if __name__ == "__main__":
     main()
