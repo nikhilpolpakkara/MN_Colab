@@ -158,12 +158,6 @@
         },
         {
           "name": "LH1",
-          "location": ["front",
-          "rear",
-          "front_left",
-          "front_right",
-          "rear_left",
-          "rear_right"]
           "class": "td",
           "sub_class": "entry",
           "hide": 0,
