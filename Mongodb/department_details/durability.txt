@@ -147,14 +147,13 @@
           "st_input_type": "selectbox",
           "options": [
             "front",
-            "rear",
-            "front_left",
-            "front_right",
-            "rear_left",
-            "rear_right"
+            "rear"
           ],
           "desc": "",
-          "required": 0
+          "required": 0,
+          "dependant_variables" : [
+                                  "LH1","LH2","LH3","LH4","LH5","LH6","RH1","RH2","RH3","RH4","RH5","RH6",
+                                  "C1","C2","C3","C4","C5","C6","twi1","twi2","twi3","tc"]
         },
         {
           "name": "LH1",

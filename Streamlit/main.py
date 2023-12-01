@@ -6,7 +6,10 @@ import Mongodb_querries
 client = MongoClient("mongodb://localhost:27017/")
 db = client["TNV"]
 
+
+
 def tyre_wear_page(department, test_activity, department_details):
+
     st.title(test_activity)
     #
     # # Example: Save button
@@ -22,7 +25,7 @@ def tyre_wear_page(department, test_activity, department_details):
     expander_list = {}
 
     for entry in tyre_wear_doc["test_data"]:
-        if entry["class"] in ["itr", "td"]:
+        if entry["class"] in ["itr"]:
             sub_class = entry["sub_class"]
             if sub_class not in expander_list.keys():
                 expander_list[sub_class] = {
@@ -36,18 +39,36 @@ def tyre_wear_page(department, test_activity, department_details):
 
 
     # print(expander_list)
-
+    def create_expander():
+        selected_value = st.session_state['tyre_location']
+        if selected_value:
+            with st.expander(selected_value):
+                st.write(f"{selected_value} entry")
     for sub_class in expander_list.keys():
         for variable in expander_list[sub_class]["variables"]:
             label_extension = " *" if (variable["required"] == 1) else ""
             if not variable["hide"] == 1:
                 if variable["st_input_type"] == "selectbox":
-                    expander_list[sub_class]["expander"].selectbox(variable["variable_name"] + label_extension,
-                                                                   options=["Front", "Rear"],
-                                                                   key = variable["variable_name"])
+
+                    # expander_list[sub_class]["expander"].selectbox(variable["variable_name"] + label_extension,
+                    #                                                options=["Front", "Rear"],
+                    #                                                key = variable["variable_name"],
+                    #                                                placeholder="Select default method..."
+                    #                                                )
+                    pass
                 else:
                     expander_list[sub_class]["expander"].text_input(variable["variable_name"] + label_extension,
                                                                     key=variable["variable_name"])
+
+    with st.container(border=True):
+        for variable_dict in tyre_wear_doc["test_data"]:
+            if "dependant_variables" in variable_dict:
+                for option in variable_dict["options"]:
+                    with st.expander(option + " entry"):
+                        for entry in variable_dict["dependant_variables"]:
+                            st.text_input(entry, key=f"{option}_{entry}")
+
+    # print(st.session_state)
 
     tyre_wear_collection = db["tyre_wear"]
     if st.button("Save Document"):
