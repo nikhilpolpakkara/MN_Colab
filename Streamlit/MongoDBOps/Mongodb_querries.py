@@ -1,6 +1,3 @@
-from pymongo import MongoClient
-
-
 def get_field_values_from_collection(collection, field_name):
     """
 
@@ -12,6 +9,7 @@ def get_field_values_from_collection(collection, field_name):
     result = list(collection.aggregate(pipeline))
     field_values = [doc["name"] for doc in result]
     return field_values
+
 
 def get_field_values_from_nested_array(collection, collection_field_name, array_field_name, filter={}):
     pipeline = [
