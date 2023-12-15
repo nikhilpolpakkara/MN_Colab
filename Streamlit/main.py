@@ -1,76 +1,187 @@
 import streamlit as st
 from pymongo import MongoClient
-from EntryUI import TyreWear, Emission
+from EntryUI import TyreWear, TyreWear2, Emission
 from MongoDBOps import crud_operations
+from streamlit_tree_select import tree_select
 
 line_color = "#2a9df4"
 
 
 @st.cache_resource
 def load_connection():
-    print("Loading Database")
+    print("Establishing Database Connection")
     client = MongoClient("mongodb://localhost:27017/")
     return client
 
 
 @st.cache_resource
+def load_data_handler(database, collection, _client):
+    print("Loading Data Handler")
+    dept_details_handler = crud_operations.MongoDBHandler(_client)
+    dept_details_handler.load_database("common")
+    dept_details_handler.load_collection("department_details")
+    return dept_details_handler
+
+
+@st.cache_resource
 def get_dept_names(_mongodb):
-    dept_names = _mongodb.get_field_values_from_collection(field_name='name')
+    print("getting dept names")
+    dept_names = _mongodb.get_field_values_from_level_1_collection(field_names=['name'])
     return dept_names
+
+
+@st.cache_resource
+def get_activity_list(_dept_details_handler, selected_department):
+    print("Getting Activity List")
+    activity_list = _dept_details_handler.get_field_values_from_level_2_collection(
+        collection_field_name='test_activity',
+        array_field_name='name',
+        collection_filter={'name': selected_department}
+    )
+    return activity_list
+
+
+# @st.cache_resource(experimental_allow_widgets=True)
+def load_entry_page(selected_department, selected_test_activity, _client):
+    print("Loading Entry Page")
+    if selected_test_activity == "tyre_wear":
+        TyreWear2.test_data_entry(
+            department_name=selected_department,
+            test_activity_name=selected_test_activity,
+            client=_client
+        )
+    elif selected_test_activity == "emission":
+        Emission.test_data_entry()
+
+
+def load_analytics_page(selected_department, selected_analytics, _client):
+    if selected_analytics == "tyre wear analytics":
+        TyreWear2.tyre_wear_analytics(selected_department, _client)
+
+
+def update_entry_sidebar(selected_department, _sidebar):
+    print("Loading Department Specific Sidebar")
+
+    if selected_department == "durability":
+        vehicle_entry_page = False
+        with _sidebar:
+            if st.button("ADD NEW VEHICLE"):
+                vehicle_entry_page = True
+        if vehicle_entry_page is True:
+            TyreWear2.add_new_vehicle()
+
+
+def create_expander_dict():
+    expander_dict = {
+        "analytics_expander": st.sidebar.expander("ANALYTICS", expanded=True),
+        "test_entry_expander": st.sidebar.expander("TEST DATA ENTRY"),
+        "vehicle_entry_expander": st.sidebar.expander("NEW COMPONENT/VEHICLE ENTRY"),
+        "dashboards_expander": st.sidebar.expander("DASHBOARDS")
+    }
+    return expander_dict
 
 
 # Main App
 def main():
-    client = load_connection()
-    dept_details_handler = crud_operations.MongoDBHandler(client)
-    dept_details_handler.load_database("common")
-    dept_details_handler.load_collection("department_details")
-    dept_names = get_dept_names(dept_details_handler)
+    print("----------------Starting app----------------")
 
+    print("loading sidebar")
     st.sidebar.title("TNV APP")
     st.sidebar.markdown(f'<hr style="border-top: 1px solid {line_color};">', unsafe_allow_html=True)
 
-    analytics_expander = st.sidebar.expander("ANALYTICS", expanded=True)
-    entry_expander = st.sidebar.expander("DATA ENTRY", expanded=True)
+    mode = st.sidebar.selectbox("WHAT YOU WANT TO DO ?", ["TEST DATA ENTRY", "ADD NEW VEHICLE/COMPONENT", "ANALYTICS", "DASHBOARDS"])
+    client = load_connection()
+    dept_details_handler = load_data_handler(
+        database="common",
+        collection="department_details",
+        _client=client
+    )
+    dept_names = get_dept_names(dept_details_handler)
 
-    with analytics_expander:
-        st.write("Analytics")
+    if mode == "ANALYTICS":
+        selected_department = st.sidebar.selectbox("Department".upper(), dept_names, index=None)
+        expander_dict = create_expander_dict()
+        print("Loading sidebar expanders")
+        with expander_dict["analytics_expander"]:
+            selected_analytics = st.selectbox("SELECT ANALYTICS",
+                                              dept_details_handler.get_field_values_from_level_1_document(
+                                                  l_1_c_filter={"name": selected_department},
+                                                  l_1_d_field_name="analytics"
+                                              ),
+                                              index=None
+                                              )
+        load_analytics_page(selected_department, selected_analytics, client)
+    elif mode == "TEST DATA ENTRY":
+        selected_department = st.sidebar.selectbox("Department".upper(), dept_names, index=None)
+        expander_dict = create_expander_dict()
 
-    with entry_expander:
-        st.title(
-            ":blue[SELECT DEPARTMENT & TEST ACTIVITY]"
-        )
+        with expander_dict["test_entry_expander"]:
+            st.sidebar.markdown(
+                "<br>",
+                unsafe_allow_html=True
+            )
+            activity_list = get_activity_list(dept_details_handler, selected_department)
 
-        selected_department = st.selectbox("Select Department".upper(), dept_names)
-        st.sidebar.markdown(
-            "<br>",
-            unsafe_allow_html=True
-        )
-        activity_list = dept_details_handler.get_field_values_from_nested_array(
-            collection_field_name='test_activity',
-            array_field_name='name',
-            filter={'name': selected_department}
-        )
+            selected_test_activity = st.selectbox(
+                "Select Test Activity".upper(),
+                activity_list,
+                index=None
+            )
 
-        selected_test_activity = st.selectbox(
-            "Select Test Activity".upper(),
-            activity_list
-        )
+        load_entry_page(selected_department, selected_test_activity, client)
+        # update_entry_sidebar(selected_department, expander_dict["entry_expander"])
 
-        test_activity_doc = dept_details_handler.get_document_from_nested_array(
-            collection_filter={'name': selected_department},
-            nested_array="test_activity",
-            array_document_filter={"field_name": 'name', "field_value": selected_test_activity}
-        )
-    test_data_handler = crud_operations.MongoDBHandler(client)
-    test_data_handler.load_database(selected_department)
-    test_data_handler.load_collection(selected_test_activity)
-
-    # Display the data entry page based on the selected department and test activity
-    if selected_test_activity == 'tyre_wear':
-        TyreWear.test_data_entry(test_activity_doc, test_data_handler, client)
-    elif selected_test_activity == 'emission':
-        Emission.test_data_entry()
+    # nodes = [
+    #     {
+    #         "label": "HOME",
+    #         "value": "home"
+    #     },
+    #
+    #     {
+    #         "label": "TNV",
+    #         "value": "tnv"
+    #     },
+    #
+    #     {
+    #         "label": "DURABILITY",
+    #         "value": "durability",
+    #         "children": [
+    #             {
+    #                 "label": "DASHBOARDS",
+    #                 "value": "dashboard"
+    #             },
+    #             {
+    #                 "label": "ANALYTICS",
+    #                 "value": "analytics",
+    #                 "children": [
+    #                     {
+    #                         "label": "TYRE WEAR ANALYSIS",
+    #                         "value": "tyre_wear_analysis"
+    #                     }
+    #                 ]
+    #             },
+    #             {
+    #                 "label": "DATA ENTRY",
+    #                 "value": "data_entry",
+    #                 "children": [
+    #                     {
+    #                         "label": "TYRE WEAR ENTRY",
+    #                         "value": "entry_tyre_wear"
+    #                     }
+    #                 ]
+    #             },
+    #         ],
+    #     }
+    # ]
+    # with st.sidebar:
+    #     tree = tree_select(nodes, only_leaf_checkboxes=True)
+    #
+    # if len(tree["checked"]) > 1:
+    #     st.error("Please select only one option in sidebar")
+    # else:
+    #     selected_page = tree["checked"][0]
+    #
+    # if selected_page == "entry_tyre_wear":
 
 
 if __name__ == "__main__":

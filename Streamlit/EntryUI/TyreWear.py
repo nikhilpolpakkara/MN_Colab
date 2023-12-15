@@ -9,7 +9,7 @@ def test_data_entry(tyre_wear_doc, test_data_handler, client):
 
     def fetch_vehicle_details():
         print("Fetching Vehicle Details")
-        vehicle_details = vehicle_details_handler.get_document_from_collection(
+        vehicle_details = vehicle_details_handler.get_document_from_level_1_collection(
             document_filter={"rev_no": st.session_state["veh_id"]}
         )
         st.session_state["model"] = vehicle_details["model"]
@@ -23,7 +23,7 @@ def test_data_entry(tyre_wear_doc, test_data_handler, client):
     vehicle_details_handler = test_data_handler
     vehicle_details_handler.load_collection("vehicle_details")
     options_dict = {
-       "veh_id": vehicle_details_handler.get_field_values_from_collection(field_name="rev_no"),
+       "veh_id": vehicle_details_handler.get_field_values_from_level_1_collection(field_names=["rev_no"], project_id=True),
     }
 
     with tab1:
