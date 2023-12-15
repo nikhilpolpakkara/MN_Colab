@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c89c9a29-fd45-448d-b760-7a555b6767aa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/DataTools/DfTools.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/plotting_package/plotly_tools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EntryUI/TyreWear.py" beforeDir="false" afterPath="$PROJECT_DIR$/EntryUI/TyreWear.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EntryUI/TyreWear2.py" beforeDir="false" afterPath="$PROJECT_DIR$/EntryUI/TyreWear2.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MongoDBOps/crud_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/MongoDBOps/crud_operations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +48,7 @@
       <recent name="D:\BAL Projects\01_Misc\MN_Colab\Streamlit\Misc" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.plotly_tools (1)">
+  <component name="RunManager" selected="Python.crud_operations">
     <configuration name="DfTools" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Streamlit" />
       <option name="INTERPRETER_OPTIONS" value="" />

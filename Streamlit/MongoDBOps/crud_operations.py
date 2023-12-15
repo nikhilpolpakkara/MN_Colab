@@ -2,6 +2,9 @@ from subprocess import call
 from pymongo.errors import DuplicateKeyError
 from pymongo import MongoClient, UpdateOne
 import pandas as pd
+import subprocess
+import os
+import json
 
 
 class MongoDBHandler:
@@ -241,8 +244,57 @@ class MongoDBHandler:
         documents_to_transfer = source_collection.find({})
         destination_collection.insert_many(documents_to_transfer)
 
+    def export_database_subprocess(self, database_names, output_directory):
+        def dump():
+            db = self.client[database_name]
+            dump_command = f"mongodump --db {database_name} --out {output_directory}"
+            subprocess.run(dump_command, shell=True)
+
+        if len(database_names) == 0:
+            database_names = client.list_database_names()
+
+        for database_name in database_names:
+            dump()
+            print(f"Database '{database_name}' exported successfully to '{output_directory}'")
+
+    def export_all_databases(self, output_directory):
+        # Get the list of all databases
+        database_names = self.client.list_database_names()
+
+        # Loop through each database and export it
+        for database_name in database_names:
+            self.export_database(database_name, output_directory)
+
+        print(f"All databases exported successfully to '{output_directory}'")
+
+    def export_database(self, database_name, output_directory):
+        # Access the database
+        db = self.client[database_name]
+
+        # Create a directory for the database dump
+        db_dump_directory = os.path.join(output_directory, database_name)
+        os.makedirs(db_dump_directory, exist_ok=True)
+
+        # Loop through each collection and export it
+        for collection_name in db.list_collection_names():
+            self.export_collection(database_name, collection_name, db_dump_directory)
+
+        print(f"Database '{database_name}' exported successfully to '{db_dump_directory}'")
+
+    def export_collection(self, database_name, collection_name, output_directory):
+        # Access the collection
+        collection = self.client[database_name][collection_name]
+
+        # Export the collection data to a JSON file
+        export_file_path = os.path.join(output_directory, f"{collection_name}.json")
+        with open(export_file_path, 'w') as export_file:
+            for document in collection.find():
+                export_file.write(json.dumps(document, default=str) + '\n')
+
+        print(f"Collection '{collection_name}' exported successfully to '{export_file_path}'")
+
 
 if __name__ == "__main__":
     client = MongoClient("mongodb://localhost:27017/")
     datahandler = MongoDBHandler(client)
-
+    datahandler.export_all_databases(r"D:\BAL Projects\01_Misc\MN_Colab\Streamlit\db")
