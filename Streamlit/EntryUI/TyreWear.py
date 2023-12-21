@@ -1,6 +1,6 @@
 import streamlit as st
 import datetime
-from MongoDBOps import crud_operations
+from DBOps import crud_operations
 
 line_color = "#2a9df4"
 
@@ -160,7 +160,7 @@ def test_data_entry(tyre_wear_doc, test_data_handler, client):
                 db_handler = crud_operations.MongoDBHandler(client)
                 db_handler.load_database("common")
                 db_handler.load_collection("counter")
-                tyre_id = db_handler.get_next_id(counter="tyre_id")
+                tyre_id = db_handler.generate_id(counter="tyre_id")
                 new_tyre_document = {
                     "tyre_id": tyre_id,
                     "wheel_position": wheel_position,

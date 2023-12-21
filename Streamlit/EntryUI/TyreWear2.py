@@ -1,6 +1,6 @@
 import streamlit as st
 import datetime
-from MongoDBOps import crud_operations
+from DBOps import crud_operations
 import pandas as pd
 from plotting_package import plotly_tools
 from DataTools import DfTools
@@ -198,7 +198,7 @@ def test_data_entry(department_name, test_activity_name, client):
                 db_handler = crud_operations.MongoDBHandler(client)
                 db_handler.load_database("common")
                 db_handler.load_collection("counter")
-                test_no = db_handler.get_next_id(counter="tyre_wear_test_counter")
+                test_no = db_handler.generate_id(counter="tyre_wear_test_counter")
 
                 f_data = {
                     "test_no": test_no,
@@ -307,7 +307,7 @@ def test_data_entry(department_name, test_activity_name, client):
                 db_handler = crud_operations.MongoDBHandler(client)
                 db_handler.load_database("common")
                 db_handler.load_collection("counter")
-                tyre_id = db_handler.get_next_id(counter="tyre_id")
+                tyre_id = db_handler.generate_id(counter="tyre_id")
                 new_tyre_document = {
                     "_id": tyre_id,
                     "tyre_location": tyre_location,
@@ -334,7 +334,7 @@ def test_data_entry(department_name, test_activity_name, client):
         tyre_details_handler = crud_operations.MongoDBHandler(client)
         tyre_details_handler.load_database("SpecsDB")
         tyre_details_handler.load_collection("tyre")
-        df = tyre_details_handler.get_collection_dataframe()
+        df = tyre_details_handler.get_collection_dataframe(exclude_columns=["section_width", "aspect_ratio", "rim_dia"])
         st.write(df)
 
 
@@ -373,7 +373,7 @@ def tyre_wear_analytics(selected_department, client):
         return df
 
     def get_nsd_trend():
-        nsd_trend = plotly.PlotBuilder(df[["odo_reading", "nsd", "tyre_location"]])
+        nsd_trend = plotly_tools.PlotBuilder(df[["odo_reading", "nsd", "tyre_location"]])
         nsd_trend.get_go_line(x="odo_reading", y="nsd", group_by="tyre_location")
         nsd_trend.set_title("NSD TREND")
         nsd_trend.set_x_axis_title("ODO READING(Km)")
@@ -381,7 +381,7 @@ def tyre_wear_analytics(selected_department, client):
         return nsd_trend.fig
 
     def get_wear_rate_trend():
-        wear_rate_trend = plotly.PlotBuilder(df[["odo_reading", "wear_rate", "tyre_location"]])
+        wear_rate_trend = plotly_tools.PlotBuilder(df[["odo_reading", "wear_rate", "tyre_location"]])
         wear_rate_trend.get_go_line(x="odo_reading", y="wear_rate", group_by="tyre_location")
         wear_rate_trend.set_title("WEAR RATE TREND")
         wear_rate_trend.set_x_axis_title("ODO READING(Km)")
@@ -389,14 +389,14 @@ def tyre_wear_analytics(selected_department, client):
         return wear_rate_trend.fig
 
     def get_spatial_trend(group_df):
-        spatial_trend = plotly.PlotBuilder(group_df[["odo_reading", "lh", "rh", "c"]])
+        spatial_trend = plotly_tools.PlotBuilder(group_df[["odo_reading", "lh", "rh", "c"]])
         spatial_trend.get_go_line(x="odo_reading", y=["lh", "rh", "c"])
         spatial_trend.set_x_axis_title("ODO READING(Km)")
         spatial_trend.set_y_axis_title("NSD(mm)")
         return spatial_trend
 
     def get_tyre_life_trend():
-        tyre_life_trend = plotly.PlotBuilder(df[["odo_reading", "extrapolated_life", "tyre_location"]])
+        tyre_life_trend = plotly_tools.PlotBuilder(df[["odo_reading", "extrapolated_life", "tyre_location"]])
         tyre_life_trend.get_go_line(x="odo_reading", y="extrapolated_life", group_by="tyre_location")
         tyre_life_trend.set_title("TYRE LIFE TREND")
         tyre_life_trend.set_x_axis_title("ODO READING(Km)")

@@ -2,8 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c89c9a29-fd45-448d-b760-7a555b6767aa" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/DBOps/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/DataTools/misc.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/EntryUI/TestTimeline.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Misc/get_html_report.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MongoDBOps/crud_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/MongoDBOps/crud_operations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataTools/DictTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataTools/DictTools.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DataTools/ListTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataTools/ListTools.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EntryUI/Emission.py" beforeDir="false" afterPath="$PROJECT_DIR$/EntryUI/Emission.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EntryUI/TyreWear.py" beforeDir="false" afterPath="$PROJECT_DIR$/EntryUI/TyreWear.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EntryUI/TyreWear2.py" beforeDir="false" afterPath="$PROJECT_DIR$/EntryUI/TyreWear2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Misc/timeline_2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Misc/timeline_2.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MongoDBOps/Mongodb_querries.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MongoDBOps/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DBOps/CsvOps.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MongoDBOps/crud_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/DBOps/crud_operations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting_package/plotly_tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/plotting_package/plotly_tools.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plotting_package/timeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/plotting_package/timeline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/timeline.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +64,7 @@
       <recent name="D:\BAL Projects\01_Misc\MN_Colab\Streamlit\Misc" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.crud_operations">
+  <component name="RunManager" selected="Python.crud_operations (1)">
     <configuration name="DfTools" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="Streamlit" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -62,6 +78,24 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DataTools/DfTools.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="crud_operations (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="Streamlit" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DBOps" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DBOps/crud_operations.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -295,6 +329,7 @@
       <item itemvalue="Python.crud_operations" />
       <item itemvalue="Python.test2" />
       <item itemvalue="Python.streamlit" />
+      <item itemvalue="Python.crud_operations (1)" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.plotly_tools" />
       <item itemvalue="Python.plotly_tools (1)" />
@@ -302,6 +337,7 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.crud_operations (1)" />
         <item itemvalue="Python.plotly_tools (1)" />
         <item itemvalue="Python.plotly_tools" />
         <item itemvalue="Python.pyvis_test" />
@@ -338,16 +374,6 @@
           <url>file://$PROJECT_DIR$/DataTools/DfTools.py</url>
           <line>24</line>
           <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/plotting_package/plotly_tools.py</url>
-          <line>51</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/plotting_package/plotly_tools.py</url>
-          <line>25</line>
-          <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

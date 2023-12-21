@@ -1,19 +1,31 @@
-﻿Model,Vehicle,Batch,Name,Dept,Description,Label,Date
-M1,V1,Proto,test_1,Durablity,d1,l1,12/15/2023
-M1,V1,Proto,test_2,Cal,d2,l2,12/16/2023
-M1,V1,Proto,test_3,Cal,d3,l3,12/17/2023
-M1,V1,Proto,test_4,Nvh,d4,l4,12/18/2023
-M1,V1,Proto,test_5,Durablity,d5,l5,12/19/2023
-M1,V2,Pilot,test_6,Performance,d6,l6,12/20/2023
-M1,V2,Pilot,test_7,Ctl,d7,l7,12/21/2023
-M1,V2,Pilot,test_8,Ctl,d8,l8,12/22/2023
-M1,V2,Pilot,test_9,Durablity,d9,l9,12/23/2023
-M1,V3,Prod,test_1,Durablity,d10,l10,12/24/2023
-M1,V3,Prod,test_2,Durablity,d11,l11,12/25/2023
-M1,V3,Prod,test_3,Durablity,d12,l12,12/26/2023
-M1,V3,Prod,test_4,Ctl,d13,l13,12/27/2023
-M1,V3,Prod,test_9,Ctl,d14,l14,12/28/2023
-M1,V3,Prod,test_10,Ctl,d15,l15,12/29/2023
-M1,V4,Pilot,test_7,Ctl,d16,l16,12/30/2023
-M1,V4,Pilot,test_8,Drivability,d17,l17,12/31/2023
-M1,V4,Pilot,test_23,Drivability,d18,l18,1/1/2024
+﻿model,vehicle,batch,test_activity,dept,desc,label,date
+M1,V1,Proto,test_1,durability,d1,l1,27-11-2023 02:03:13
+M1,V1,Proto,test_2,cal,d2,l2,03-12-2023 03:55:13
+M1,V1,Proto,test_3,cal,d3,l3,11-12-2023 08:34:58
+M1,V1,Proto,test_4,nvh,d4,l4,08-12-2023 11:21:42
+M1,V1,Proto,test_5,durability,d5,l5,21-11-2023 09:39:09
+M1,V2,Pilot,test_6,performance,d6,l6,03-12-2023 14:08:45
+M1,V2,Pilot,test_7,ctl,d7,l7,03-12-2023 18:06:57
+M1,V2,Pilot,test_8,ctl,d8,l8,22-11-2023 04:48:43
+M1,V2,Pilot,test_9,durability,d9,l9,04-12-2023 18:41:40
+M1,V3,Prod,test_1,durability,d10,l10,28-11-2023 20:00:53
+M1,V3,Prod,test_2,durability,d11,l11,12-12-2023 01:57:02
+M1,V3,Prod,test_3,durability,d12,l12,19-11-2023 23:32:59
+M1,V3,Prod,test_4,ctl,d13,l13,17-12-2023 03:53:36
+M1,V3,Prod,test_9,ctl,d14,l14,15-12-2023 02:35:25
+M1,V3,Prod,test_10,ctl,d15,l15,07-12-2023 09:31:55
+M1,V4,Pilot,test_7,ctl,d16,l16,29-11-2023 13:01:34
+M1,V4,Pilot,test_8,drivability,d17,l17,25-11-2023 12:47:02
+M1,V4,Pilot,test_23,drivability,d18,l18,19-11-2023 21:00:53
+M1,V1,Pilot,test_7,ctl,d7,l7,05-12-2023 21:46:22
+M1,V1,Pilot,test_8,ctl,d8,l8,21-11-2023 17:16:25
+M2,V5,Prod,test_10,ctl,d15,l15,16-12-2023 08:26:36
+M2,V5,Pilot,test_7,ctl,d16,l16,23-11-2023 05:24:02
+M2,V5,Pilot,test_8,drivability,d17,l17,21-11-2023 15:49:59
+M2,V5,Pilot,test_23,drivability,d18,l18,27-11-2023 18:13:19
+M2,V5,Pilot,test_7,ctl,d7,l7,15-12-2023 12:44:18
+M2,V6,Pilot,test_8,ctl,d8,l8,04-12-2023 14:11:33
+M2,V6,Proto,test_3,cal,d3,l3,06-12-2023 13:24:38
+M2,V6,Proto,test_4,nvh,d4,l4,16-12-2023 15:45:07
+M2,V6,Proto,test_5,durability,d5,l5,24-11-2023 12:31:11
+M2,V6,Pilot,test_6,performance,d6,l6,18-12-2023 07:08:26

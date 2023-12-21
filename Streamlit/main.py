@@ -1,7 +1,7 @@
 import streamlit as st
 from pymongo import MongoClient
-from EntryUI import TyreWear, TyreWear2, Emission
-from MongoDBOps import crud_operations
+from EntryUI import TyreWear, TyreWear2, Emission, TestTimeline
+from DBOps import crud_operations
 from streamlit_tree_select import tree_select
 
 line_color = "#2a9df4"
@@ -51,12 +51,18 @@ def load_entry_page(selected_department, selected_test_activity, _client):
             client=_client
         )
     elif selected_test_activity == "emission":
-        Emission.test_data_entry()
+        Emission.emission_entry()
 
 
 def load_analytics_page(selected_department, selected_analytics, _client):
     if selected_analytics == "tyre wear analytics":
         TyreWear2.tyre_wear_analytics(selected_department, _client)
+
+
+
+def load_dashboard_page(selected_dashboard, _client):
+    if selected_dashboard == "test_timeline":
+        TestTimeline.plotly_timeline(_client)
 
 
 def update_entry_sidebar(selected_department, _sidebar):
@@ -88,100 +94,163 @@ def main():
     print("loading sidebar")
     st.sidebar.title("TNV APP")
     st.sidebar.markdown(f'<hr style="border-top: 1px solid {line_color};">', unsafe_allow_html=True)
-
-    mode = st.sidebar.selectbox("WHAT YOU WANT TO DO ?", ["TEST DATA ENTRY", "ADD NEW VEHICLE/COMPONENT", "ANALYTICS", "DASHBOARDS"])
     client = load_connection()
-    dept_details_handler = load_data_handler(
-        database="common",
-        collection="department_details",
-        _client=client
-    )
-    dept_names = get_dept_names(dept_details_handler)
 
-    if mode == "ANALYTICS":
-        selected_department = st.sidebar.selectbox("Department".upper(), dept_names, index=None)
-        expander_dict = create_expander_dict()
-        print("Loading sidebar expanders")
-        with expander_dict["analytics_expander"]:
-            selected_analytics = st.selectbox("SELECT ANALYTICS",
-                                              dept_details_handler.get_field_values_from_level_1_document(
-                                                  l_1_c_filter={"name": selected_department},
-                                                  l_1_d_field_name="analytics"
-                                              ),
-                                              index=None
-                                              )
-        load_analytics_page(selected_department, selected_analytics, client)
-    elif mode == "TEST DATA ENTRY":
-        selected_department = st.sidebar.selectbox("Department".upper(), dept_names, index=None)
-        expander_dict = create_expander_dict()
-
-        with expander_dict["test_entry_expander"]:
-            st.sidebar.markdown(
-                "<br>",
-                unsafe_allow_html=True
-            )
-            activity_list = get_activity_list(dept_details_handler, selected_department)
-
-            selected_test_activity = st.selectbox(
-                "Select Test Activity".upper(),
-                activity_list,
-                index=None
-            )
-
-        load_entry_page(selected_department, selected_test_activity, client)
-        # update_entry_sidebar(selected_department, expander_dict["entry_expander"])
-
-    # nodes = [
-    #     {
-    #         "label": "HOME",
-    #         "value": "home"
-    #     },
+    # mode = st.sidebar.selectbox("WHAT YOU WANT TO DO ?", ["TEST DATA ENTRY", "ADD NEW VEHICLE/COMPONENT", "ANALYTICS", "DASHBOARDS"])
+    # dept_details_handler = load_data_handler(
+    #     database="common",
+    #     collection="department_details",
+    #     _client=client
+    # )
+    # dept_names = get_dept_names(dept_details_handler)
     #
-    #     {
-    #         "label": "TNV",
-    #         "value": "tnv"
-    #     },
+    # if mode == "ANALYTICS":
+    #     selected_department = st.sidebar.selectbox("Department".upper(), dept_names, index=None)
+    #     expander_dict = create_expander_dict()
+    #     print("Loading sidebar expanders")
+    #     with expander_dict["analytics_expander"]:
+    #         selected_analytics = st.selectbox("SELECT ANALYTICS",
+    #                                           dept_details_handler.get_field_values_from_level_1_document(
+    #                                               l_1_c_filter={"name": selected_department},
+    #                                               l_1_d_field_name="analytics"
+    #                                           ),
+    #                                           index=None
+    #                                           )
+    #     load_analytics_page(selected_department, selected_analytics, client)
+    # elif mode == "TEST DATA ENTRY":
+    #     selected_department = st.sidebar.selectbox("Department".upper(), dept_names, index=None)
+    #     expander_dict = create_expander_dict()
     #
-    #     {
-    #         "label": "DURABILITY",
-    #         "value": "durability",
-    #         "children": [
-    #             {
-    #                 "label": "DASHBOARDS",
-    #                 "value": "dashboard"
-    #             },
-    #             {
-    #                 "label": "ANALYTICS",
-    #                 "value": "analytics",
-    #                 "children": [
-    #                     {
-    #                         "label": "TYRE WEAR ANALYSIS",
-    #                         "value": "tyre_wear_analysis"
-    #                     }
-    #                 ]
-    #             },
-    #             {
-    #                 "label": "DATA ENTRY",
-    #                 "value": "data_entry",
-    #                 "children": [
-    #                     {
-    #                         "label": "TYRE WEAR ENTRY",
-    #                         "value": "entry_tyre_wear"
-    #                     }
-    #                 ]
-    #             },
-    #         ],
-    #     }
-    # ]
-    # with st.sidebar:
-    #     tree = tree_select(nodes, only_leaf_checkboxes=True)
+    #     with expander_dict["test_entry_expander"]:
+    #         st.sidebar.markdown(
+    #             "<br>",
+    #             unsafe_allow_html=True
+    #         )
+    #         activity_list = get_activity_list(dept_details_handler, selected_department)
     #
-    # if len(tree["checked"]) > 1:
-    #     st.error("Please select only one option in sidebar")
-    # else:
-    #     selected_page = tree["checked"][0]
+    #         selected_test_activity = st.selectbox(
+    #             "Select Test Activity".upper(),
+    #             activity_list,
+    #             index=None
+    #         )
     #
-    # if selected_page == "entry_tyre_wear":
+    #     load_entry_page(selected_department, selected_test_activity, client)
+    #     # update_entry_sidebar(selected_department, expander_dict["entry_expander"])
+
+    nodes = [
+        {
+            "label": "TNV",
+            "value": "tnv",
+            "children": [
+                {
+                    "label": "TEST TIMELINE",
+                    "value": "test_timeline"
+                }
+            ]
+        },
+
+
+        {
+            "label": "DURABILITY",
+            "value": "durability",
+            "children": [
+                {
+                    "label": "DASHBOARDS",
+                    "value": "durability_dashboard",
+                    "children": [
+                        {
+                            "label": "DASHBOARD 1",
+                            "value": "dashboard_1"
+                        }
+                    ]
+
+                },
+
+                {
+                    "label": "ANALYTICS",
+                    "value": "durability_analytics",
+                    "children": [
+                        {
+                            "label": "TYRE WEAR ANALYSIS",
+                            "value": "tyre_wear_analysis"
+                        }
+                    ]
+                },
+                {
+                    "label": "DATA ENTRY",
+                    "value": "durability_data_entry",
+                    "children": [
+                        {
+                            "label": "TYRE WEAR ENTRY",
+                            "value": "entry_tyre_wear"
+                        }
+                    ]
+                },
+            ],
+        },
+
+        {
+            "label": "CALIBRATION",
+            "value": "cal",
+            "children": [
+                {
+                    "label": "DASHBOARD",
+                    "value": "cal_dashboard",
+                    "children": [
+                        {
+                            "label": "2W EMISSION DASHBOARD",
+                            "value": "emission_dashboard_2w"
+                        }
+                    ]
+                },
+                {
+                    "label": "ANALYTICS",
+                    "value": "cal_analytics",
+                    "children": [
+                        {
+                            "label": "EMISSION ANALYSIS",
+                            "value": "emission_analysis"
+                        }
+                    ]
+                },
+                {
+                    "label": "DATA ENTRY",
+                    "value": "cal_data_entry",
+                    "children": [
+                        {
+                            "label": "EMISSION ENTRY",
+                            "value": "emission_entry"
+                        }
+                    ]
+                },
+            ],
+        }
+    ]
+    with st.sidebar:
+        tree = tree_select(nodes, only_leaf_checkboxes=True)
+
+    checkbox_ticked = list(set(tree["checked"]) - set(tree["expanded"]))
+    print(checkbox_ticked)
+    if len(checkbox_ticked) == 0:
+        st.error("Please select something")
+
+    else:
+        if len(checkbox_ticked) > 1:
+            st.error("Please select only one option in sidebar")
+        else:
+            selected_page = checkbox_ticked[0]
+            print(selected_page)
+            if selected_page == "entry_tyre_wear":
+                load_entry_page("durability", "tyre_wear", client)
+            elif selected_page == "tyre_wear_analysis":
+                load_analytics_page("durability", "tyre wear analytics", client)
+            elif selected_page == "test_timeline":
+                load_dashboard_page(selected_page, client)
+            elif selected_page == "emission_analysis":
+                Emission.emission_analysis_ui()
+            elif selected_page == "emission_dashboard_2w":
+                client.close()
+                Emission.emission_dashboard_2w()
 
 
 if __name__ == "__main__":
