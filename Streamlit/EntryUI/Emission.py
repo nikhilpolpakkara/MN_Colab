@@ -88,7 +88,6 @@ def emission_dashboard_2w():
         # df = pd.DataFrame(data)
         print("OK")
 
-    vdpl_tab = st.tabs("VDPL")
 
 
 

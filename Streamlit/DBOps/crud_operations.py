@@ -383,7 +383,14 @@ class MongoDBHandler:
 
 if __name__ == "__main__":
     # client = MongoClient("mongodb://localhost:27017/")
+<<<<<<< Updated upstream
     client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
+=======
+    # client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
+    # client = MongoClient("mongodb://192.168.241.61:27017/")
+
+    client = MongoClient("mongodb://10.11.10.72:27017/")
+>>>>>>> Stashed changes
     datahandler = MongoDBHandler(client)
 
     # datahandler.load_database("testing_history")
