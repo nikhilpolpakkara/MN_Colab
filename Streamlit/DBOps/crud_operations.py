@@ -383,22 +383,20 @@ class MongoDBHandler:
 
 if __name__ == "__main__":
     # client = MongoClient("mongodb://localhost:27017/")
-<<<<<<< Updated upstream
-    client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
-=======
+    # client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
     # client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
     # client = MongoClient("mongodb://192.168.241.61:27017/")
 
-    client = MongoClient("mongodb://10.11.10.72:27017/")
->>>>>>> Stashed changes
+    # client = MongoClient("mongodb://10.11.10.72:27017/")
+    client = MongoClient("mongodb://10.11.10.95:27017/")
     datahandler = MongoDBHandler(client)
 
     # datahandler.load_database("testing_history")
     # datahandler.load_collection("timeline")
     # a = sorted(datahandler.get_field_values_from_level_1_collection(field_names=["Dept"]))
 
-    # csv_path = "../data/emission_csv/single_line_csv_etr_entry.csv"
-    # datahandler.import_documents_from_csv(csv_path, "emission_dashboard", "testing_history")
+    csv_path = "../data/emission_csv/single_line_csv_etr_entry.csv"
+    datahandler.import_documents_from_csv(csv_path, "emission_dashboard", "testing_history")
 
     # datahandler.load_database("testing_history")
     # datahandler.load_collection("timeline")
@@ -418,7 +416,7 @@ if __name__ == "__main__":
     #     collection_filter={"model": ["M1"]})
 
     # datahandler.export_all_databases(output_directory=r"D:\BAL Projects\01_Misc\MN_Colab\Streamlit\db")
-    datahandler.import_all_databases(r"D:\BAL Projects\01_Misc\MN_Colab\Streamlit\db")
+    # datahandler.import_all_databases(r"D:\BAL Projects\01_Misc\MN_Colab\Streamlit\db")
 
 
 

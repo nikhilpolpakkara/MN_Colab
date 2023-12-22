@@ -2,16 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a905911e-8505-4b25-a04a-e8dbbb9a42f6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Streamlit/Misc/clean_df.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/MN_Colab.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MN_Colab.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_30_2023_11_32_AM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_30_2023_11_32_AM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_30_2023_2_14_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_11_30_2023_2_14_PM__Changes_.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Streamlit/DataTools/StringTools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Streamlit/DBOps/crud_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/DBOps/crud_operations.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Streamlit/EntryUI/Emission.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/EntryUI/Emission.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Streamlit/Misc/clean_df.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/Misc/clean_df.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Streamlit/data/emission_csv/single_line_csv_etr_entry.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/data/emission_csv/single_line_csv_etr_entry.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Streamlit/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/main.py" afterDir="false" />
     </list>
@@ -50,11 +45,14 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.clean_df">
+  <component name="RunManager" selected="Python.crud_operations">
     <configuration name="clean_df" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="MN_Colab" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/Misc" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -132,8 +130,8 @@
     <list>
       <item itemvalue="Python.shared_db" />
       <item itemvalue="Python.streamlit" />
-      <item itemvalue="Python.crud_operations" />
       <item itemvalue="Python.clean_df" />
+      <item itemvalue="Python.crud_operations" />
     </list>
     <recent_temporary>
       <list>

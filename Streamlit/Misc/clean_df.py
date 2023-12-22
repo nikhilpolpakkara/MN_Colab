@@ -19,3 +19,4 @@ def emission_category(row):
 df["worst%"] = df[["CO%", "HC%", "NOX%", "NMHC%"]].max(axis=1)
 df['category'] = df.apply(emission_category, axis=1)
 df = df.drop(["worst%"], axis=1)
+df.to_csv(csv_path)

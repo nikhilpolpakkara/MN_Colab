@@ -3,6 +3,7 @@ from Misc import get_html_report
 from DBOps import crud_operations
 import pandas as pd
 from pymongo import MongoClient
+from DataTools import StringTools
 
 def emission_entry():
     pass
@@ -35,7 +36,8 @@ def emission_analysis_ui():
 
 
 def emission_dashboard_2w():
-    client = MongoClient("mongodb://localhost:27017/")
+    # client = MongoClient("mongodb://localhost:27017/")
+    client = MongoClient("mongodb://10.11.10.95:27017/")
     st.title("EMISSION DASHBOARD")
     bosch_tab, vdpl_tab = st.tabs(["BOSCH", "VDPL"])
     datahandler = crud_operations.MongoDBHandler(client)
@@ -67,25 +69,8 @@ def emission_dashboard_2w():
             data["count"].append(item["count"])
         df = pd.DataFrame(data)
         df = df.sort_values(by="model")
-        # # Prepare data for plotting
-        # data = {"model": [], "pass_count": [], "fail_count": []}
-        #
-        # for item in result:
-        #     model = item["_id"]["model"]
-        #     count = item["count"]
-        #
-        #
-        #     if item["_id"]["result"] == "PASS":
-        #         data["pass_count"].append(count)
-        #         data["fail_count"].append(0)  # Add 0 for fail count to align with pass counts
-        #     elif item["_id"]["result"] == "FAIL":
-        #         data["fail_count"][-1] = count  # Update the last fail count
-        #
-        #     if model not in data["model"]:
-        #         data["model"].append(model)
+        df['model'] = df['model'].apply(StringTools.remove_unnecessary_characters)
 
-        # Create a DataFrame
-        # df = pd.DataFrame(data)
         print("OK")
 
 
