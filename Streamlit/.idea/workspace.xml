@@ -1,22 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c89c9a29-fd45-448d-b760-7a555b6767aa" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DBOps/crud_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/DBOps/crud_operations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EntryUI/TyreWear2.py" beforeDir="false" afterPath="$PROJECT_DIR$/EntryUI/TyreWear2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/TNV/department_details.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/TNV/tyre_wear.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/admin/system.users.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/admin/system.version.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/config/system.sessions.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/durability/tyre_wear.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/durability/vehicle_details.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/local/startup_log.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db/testing_data/du_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/testing_data/du_1.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rough.py" beforeDir="false" afterPath="$PROJECT_DIR$/rough.py" afterDir="false" />
-    </list>
+    <list default="true" id="c89c9a29-fd45-448d-b760-7a555b6767aa" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -335,19 +320,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.historical_timelines_ht" />
-      <item itemvalue="Python.process_flow_vis_2" />
-      <item itemvalue="Python.pyvis" />
-      <item itemvalue="Python.read_hex" />
       <item itemvalue="Python.DfTools" />
-      <item itemvalue="Python.crud_operations" />
-      <item itemvalue="Python.test2" />
-      <item itemvalue="Python.streamlit" />
       <item itemvalue="Python.Emission" />
       <item itemvalue="Python.crud_operations (1)" />
-      <item itemvalue="Python.plotly_tools" />
+      <item itemvalue="Python.crud_operations" />
+      <item itemvalue="Python.historical_timelines_ht" />
       <item itemvalue="Python.plotly_tools (1)" />
+      <item itemvalue="Python.plotly_tools" />
+      <item itemvalue="Python.process_flow_vis_2" />
+      <item itemvalue="Python.pyvis" />
       <item itemvalue="Python.pyvis_test" />
+      <item itemvalue="Python.read_hex" />
+      <item itemvalue="Python.streamlit" />
+      <item itemvalue="Python.test2" />
     </list>
     <recent_temporary>
       <list>
@@ -386,7 +371,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/EntryUI/Emission.py</url>
-          <line>88</line>
+          <line>73</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
       </breakpoints>
