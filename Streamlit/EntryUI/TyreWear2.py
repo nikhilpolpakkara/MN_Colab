@@ -187,12 +187,17 @@ def test_data_entry(department_name, test_activity_name, client):
             if submitted:
                 f_lh = min([f_lh1, f_lh2, f_lh3, f_lh4, f_lh5, f_lh6]),
                 f_rh = min([f_rh1, f_rh2, f_rh3, f_rh4, f_rh5, f_rh6]),
+                f_lh = f_lh[0]
+                f_rh = f_rh[0]
                 f_c = min([f_c1, f_c2, f_c3, f_c4, f_c5, f_c6]),
+                f_c = f_c[0]
                 f_nsd = min([f_lh, f_rh, f_c])
-
                 r_lh = min([r_lh1, r_lh2, r_lh3, r_lh4, r_lh5, r_lh6]),
+                r_lh = r_lh[0]
                 r_rh = min([r_rh1, r_rh2, r_rh3, r_rh4, r_rh5, r_rh6]),
+                r_rh = r_rh[0]
                 r_c = min([r_c1, r_c2, r_c3, r_c4, r_c5, r_c6]),
+                r_c = r_c[0]
                 r_nsd = min([r_lh, r_rh, r_c])
 
                 db_handler = crud_operations.MongoDBHandler(client)

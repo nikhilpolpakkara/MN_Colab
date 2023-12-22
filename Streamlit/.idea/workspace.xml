@@ -3,8 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="c89c9a29-fd45-448d-b760-7a555b6767aa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EntryUI/Emission.py" beforeDir="false" afterPath="$PROJECT_DIR$/EntryUI/Emission.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Misc/timeline_2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Misc/timeline_2.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DBOps/crud_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/DBOps/crud_operations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EntryUI/TyreWear2.py" beforeDir="false" afterPath="$PROJECT_DIR$/EntryUI/TyreWear2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/TNV/department_details.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/TNV/tyre_wear.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/admin/system.users.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/admin/system.version.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/config/system.sessions.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/durability/tyre_wear.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/durability/vehicle_details.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/local/startup_log.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/testing_data/du_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/db/testing_data/du_1.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rough.py" beforeDir="false" afterPath="$PROJECT_DIR$/rough.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,14 +41,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/BAL Projects/01_Misc/MN_Colab/Streamlit/Misc",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/BAL Projects/01_Misc/MN_Colab/Streamlit/Misc&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\BAL Projects\01_Misc\MN_Colab\Streamlit\Misc" />
@@ -96,6 +107,9 @@
       <module name="Streamlit" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/DBOps" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -135,6 +149,9 @@
       <module name="Streamlit" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Misc" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -195,6 +212,9 @@
       <module name="Streamlit" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Misc" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -213,6 +233,9 @@
       <module name="Streamlit" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Misc" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -231,6 +254,9 @@
       <module name="Streamlit" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Misc" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -249,6 +275,9 @@
       <module name="Streamlit" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -322,8 +351,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.Emission" />
         <item itemvalue="Python.crud_operations (1)" />
+        <item itemvalue="Python.Emission" />
         <item itemvalue="Python.plotly_tools (1)" />
         <item itemvalue="Python.plotly_tools" />
         <item itemvalue="Python.pyvis_test" />
@@ -355,11 +384,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/DataTools/DfTools.py</url>
-          <line>24</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/EntryUI/Emission.py</url>
           <line>88</line>

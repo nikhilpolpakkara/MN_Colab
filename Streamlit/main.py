@@ -10,7 +10,9 @@ line_color = "#2a9df4"
 @st.cache_resource
 def load_connection():
     print("Establishing Database Connection")
-    client = MongoClient("mongodb://localhost:27017/")
+    # client = MongoClient("mongodb://localhost:27017/")
+    client = MongoClient("mongodb://10.11.10.72:27017/")
+    # client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
     return client
 
 
@@ -232,7 +234,10 @@ def main():
     checkbox_ticked = list(set(tree["checked"]) - set(tree["expanded"]))
     print(checkbox_ticked)
     if len(checkbox_ticked) == 0:
-        st.error("Please select something")
+        # st.error("Please select something")
+        st.image("D:/BAL Projects/01_Misc/MN_Colab/Streamlit/data/main_image.jpg",
+                 use_column_width=True,
+                 clamp=True)
 
     else:
         if len(checkbox_ticked) > 1:
@@ -249,7 +254,7 @@ def main():
             elif selected_page == "emission_analysis":
                 Emission.emission_analysis_ui()
             elif selected_page == "emission_dashboard_2w":
-                client.close()
+                # client.close()
                 Emission.emission_dashboard_2w()
 
 
