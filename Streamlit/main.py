@@ -7,17 +7,20 @@ from streamlit_tree_select import tree_select
 line_color = "#2a9df4"
 
 
-@st.cache_resource
+@st.cache_resource(ttl="30s")
 def load_connection():
     print("Establishing Database Connection")
     # client = MongoClient("mongodb://localhost:27017/")
+<<<<<<< Updated upstream
     # client = MongoClient("mongodb://10.11.10.72:27017/")
+=======
+>>>>>>> Stashed changes
     client = MongoClient("mongodb://10.11.10.95:27017/")
     # client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
     return client
 
 
-@st.cache_resource
+@st.cache_resource(ttl="30s")
 def load_data_handler(database, collection, _client):
     print("Loading Data Handler")
     dept_details_handler = crud_operations.MongoDBHandler(_client)
@@ -236,9 +239,10 @@ def main():
     print(checkbox_ticked)
     if len(checkbox_ticked) == 0:
         # st.error("Please select something")
-        st.image("D:/BAL Projects/01_Misc/MN_Colab/Streamlit/data/main_image.jpg",
+        st.image(image="data/main_gif_2.gif",
                  use_column_width=True,
-                 clamp=True)
+                 caption = "WELCOME"
+                )
 
     else:
         if len(checkbox_ticked) > 1:
