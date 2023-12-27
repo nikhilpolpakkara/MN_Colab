@@ -103,6 +103,14 @@ class PlotBuilder:
         self.df[column_name] = pd.to_datetime(self.df[column_name], format='%d-%m-%Y %H:%M:%S')
         self.df = self.df.sort_values(column_name)
 
+    def sunburst_plot(self, levels, color_level):
+        self.fig = px.sunburst(
+            self.df,
+            path=levels,
+            color=color_level,
+        )
+        self.fig.update_layout(autosize=True, margin=dict(l=0, r=0, b=0, t=0, pad=0))
+
 
 class Timeline:
     def __init__(self, df):

@@ -42,11 +42,11 @@ c3.metric("Tests Failed", tests_failed)
 # st.plotly_chart(fig)
 #-----------------------------------------------------------------------
 # Display Total Tests in Each Test Cell
-df["DATE"] = pd.to_datetime(df["DATE"], format='%d/%m/%Y')
+filtered_data["DATE"] = pd.to_datetime(filtered_data["DATE"], format='%d/%m/%Y')
 
-end_date = max(df["DATE"])
+end_date = max(filtered_data["DATE"])
 start_date = end_date - timedelta(days=6)
-filtered_data_last_7_days = df[(df["DATE"] >= start_date) & (df["DATE"] <= end_date)]
+filtered_data_last_7_days = filtered_data[(filtered_data["DATE"] >= start_date) & (filtered_data["DATE"] <= end_date)]
 
 # Calculate total tests by model for the last 7 days
 total_tests_by_model_last_7_days = filtered_data_last_7_days.groupby("MODEL")["RESULT"].value_counts().unstack().fillna(0)
@@ -54,7 +54,7 @@ colors = {'Pass': 'blue', 'Fail': 'red'}
 
 # Plotting a horizontal bar chart
 fig = px.bar(total_tests_by_model_last_7_days, orientation='h', barmode='stack', color_discrete_map=colors)
-fig.update_layout(xaxis_tickangle=-45,)  # Adjust the angle of x-axis tick labels
+fig.update_layout( xaxis_tickangle=-45)  # Adjust the angle of x-axis tick labels
 st.plotly_chart(fig)
 #######################################################################
 
@@ -126,7 +126,7 @@ fig_line_chart = px.line(
 st.plotly_chart(fig_line_chart)
 
 # Convert DATE column to datetime object
-filtered_data["DATE"] = pd.to_datetime(filtered_data["DATE"], format='%d/%m/%Y')
+
 
 # Keep only the last 10 days of data
 end_date = max(filtered_data["DATE"])

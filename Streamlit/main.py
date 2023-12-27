@@ -11,7 +11,8 @@ line_color = "#2a9df4"
 def load_connection():
     print("Establishing Database Connection")
     # client = MongoClient("mongodb://localhost:27017/")
-    client = MongoClient("mongodb://10.11.10.95:27017/")
+    # client = MongoClient("mongodb://10.11.10.95:27017/")
+    client = MongoClient("mongodb://10.11.10.72:27017/")
     # client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
     return client
 
