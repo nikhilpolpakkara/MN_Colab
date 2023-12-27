@@ -387,19 +387,19 @@ if __name__ == "__main__":
     # client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
     # client = MongoClient("mongodb://192.168.241.61:27017/")
 
-    # client = MongoClient("mongodb://10.11.10.72:27017/")
-    client = MongoClient("mongodb://10.11.10.95:27017/")
+    client = MongoClient("mongodb://10.11.10.72:27017/")
+    # client = MongoClient("mongodb://10.11.10.95:27017/")
     datahandler = MongoDBHandler(client)
 
     # datahandler.load_database("testing_history")
     # datahandler.load_collection("timeline")
     # a = sorted(datahandler.get_field_values_from_level_1_collection(field_names=["Dept"]))
 
-    csv_path = "../data/emission_csv/single_line_csv_etr_entry.csv"
-    datahandler.import_documents_from_csv(csv_path, "emission_dashboard", "testing_history")
+    # csv_path = "../data/emission_csv/single_line_csv_etr_entry.csv"
+    # datahandler.import_documents_from_csv(csv_path, "emission_dashboard", "testing_history")
 
-    # datahandler.load_database("testing_history")
-    # datahandler.load_collection("timeline")
+    datahandler.load_database("testing_history")
+    datahandler.load_collection("timeline")
     # start_time = (datetime.now() - timedelta(days=30)).strftime('%d-%m-%Y %H:%M:%S')
     # end_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
     # s = "20-11-2023 00:00:00"

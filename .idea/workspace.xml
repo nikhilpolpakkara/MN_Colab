@@ -2,12 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a905911e-8505-4b25-a04a-e8dbbb9a42f6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Streamlit/DataTools/StringTools.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Streamlit/Misc/read_dataset/charachteristic_description" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_a2l_pya2l.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_hex.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_hex_intelhex.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_hex_objutils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/MN_Colab.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MN_Colab.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Streamlit/DBOps/crud_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/DBOps/crud_operations.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Streamlit/DataTools/StringTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/DataTools/StringTools.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Streamlit/EntryUI/Emission.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/EntryUI/Emission.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Streamlit/Misc/clean_df.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/Misc/clean_df.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Streamlit/data/emission_csv/single_line_csv_etr_entry.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/data/emission_csv/single_line_csv_etr_entry.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Streamlit/Misc/read_hex.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Streamlit/data/01_JE351454010381/01_JE351454010381.7z" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Streamlit/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,10 +49,15 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/venv" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
-  <component name="RunManager" selected="Python.crud_operations">
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\02_WORK\BAJAJ\POC\MN_Colab\Streamlit\Misc\read_dataset" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.streamlit">
     <configuration name="clean_df" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="MN_Colab" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -77,6 +89,99 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Streamlit/DBOps/crud_operations.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="read_a2l_pya2l" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MN_Colab" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_a2l_pya2l.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="read_hex (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MN_Colab" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_hex.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="read_hex" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="MN_Colab" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/Misc" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="D:\02_WORK\BAJAJ\POC\MN_Colab\Streamlit\Misc\read_dataset\read_hex.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="read_hex_intelhex" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="MN_Colab" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_hex_intelhex.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="read_hex_objutils" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="MN_Colab" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_hex_objutils.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -132,9 +237,16 @@
       <item itemvalue="Python.streamlit" />
       <item itemvalue="Python.clean_df" />
       <item itemvalue="Python.crud_operations" />
+      <item itemvalue="Python.read_hex" />
+      <item itemvalue="Python.read_hex (1)" />
+      <item itemvalue="Python.read_hex_objutils" />
+      <item itemvalue="Python.read_hex_intelhex" />
+      <item itemvalue="Python.read_a2l_pya2l" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.read_a2l_pya2l" />
+        <item itemvalue="Python.read_hex (1)" />
         <item itemvalue="Python.crud_operations" />
       </list>
     </recent_temporary>
@@ -161,5 +273,16 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_hex.py</url>
+          <line>58</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
