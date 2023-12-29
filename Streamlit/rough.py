@@ -147,3 +147,4 @@ fig_bar_chart = px.bar(
     title="VTC Column-wise Count for the Last 10 Days with PASS/FAIL"
 )
 st.plotly_chart(fig_bar_chart)
+

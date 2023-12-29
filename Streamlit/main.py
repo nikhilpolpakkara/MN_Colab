@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from EntryUI import TyreWear, TyreWear2, Emission, TestTimeline
 from DBOps import crud_operations
 from streamlit_tree_select import tree_select
+from EntryUI import Dataset
 
 line_color = "#2a9df4"
 
@@ -11,8 +12,8 @@ line_color = "#2a9df4"
 def load_connection():
     print("Establishing Database Connection")
     # client = MongoClient("mongodb://localhost:27017/")
-    # client = MongoClient("mongodb://10.11.10.95:27017/")
-    client = MongoClient("mongodb://10.11.10.72:27017/")
+    client = MongoClient("mongodb://10.11.10.95:27017/")
+    # client = MongoClient("mongodb://10.11.10.72:27017/")
     # client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
     return client
 
@@ -55,6 +56,7 @@ def load_entry_page(selected_department, selected_test_activity, _client):
         )
     elif selected_test_activity == "emission":
         Emission.emission_entry()
+
 
 
 def load_analytics_page(selected_department, selected_analytics, _client):
@@ -226,6 +228,32 @@ def main():
                         }
                     ]
                 },
+
+                {
+                    "label": "DOCUMENTATION",
+                    "value": "cal_documentation",
+                    "children": [
+                        {
+                            "label": "BASE CAL",
+                            "value": "base_cal"
+                        }
+                    ]
+                },
+                {
+                    "label": "MISC",
+                    "value": "cal_misc",
+                    "children": [
+                        {
+                            "label": "DATASET REVIEW",
+                            "value": "dataset_review"
+                        },
+                        {
+                            "label": "DATASET DISCUSSION",
+                            "value": "dataset_discussion"
+                        }
+                    ]
+                },
+
             ],
         }
     ]
@@ -236,9 +264,9 @@ def main():
     print(checkbox_ticked)
     if len(checkbox_ticked) == 0:
         # st.error("Please select something")
-        st.image(image="data/main_gif_2.gif",
+        st.image(image="data/main_1.png",
                  use_column_width=True,
-                 caption = "WELCOME"
+                 # caption = "WELCOME"
                 )
 
     else:
@@ -258,6 +286,10 @@ def main():
             elif selected_page == "emission_dashboard_2w":
                 # client.close()
                 Emission.emission_dashboard_2w()
+            elif selected_page == 'dataset_review':
+                Dataset.dataset_entry()
+            elif selected_page == 'dataset_discussion':
+                Dataset.dataset_discussion()
 
 
 if __name__ == "__main__":

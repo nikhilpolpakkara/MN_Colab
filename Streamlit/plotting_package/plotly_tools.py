@@ -108,6 +108,7 @@ class PlotBuilder:
             self.df,
             path=levels,
             color=color_level,
+            # color_discrete_map=color_level,
         )
         self.fig.update_layout(autosize=True, margin=dict(l=0, r=0, b=0, t=0, pad=0))
 
