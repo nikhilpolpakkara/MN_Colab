@@ -2,20 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a905911e-8505-4b25-a04a-e8dbbb9a42f6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Streamlit/Misc/read_dataset/charachteristic_description" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_a2l_pya2l.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_hex.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_hex_intelhex.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_hex_objutils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/MN_Colab.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MN_Colab.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Streamlit/DBOps/ExcelOps.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Streamlit/Misc/read_dataset_excel/read_dataset_excel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Streamlit/DBOps/crud_operations.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/DBOps/crud_operations.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Streamlit/DataTools/StringTools.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/DataTools/StringTools.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Streamlit/EntryUI/Emission.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/EntryUI/Emission.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Streamlit/Misc/read_hex.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Streamlit/data/01_JE351454010381/01_JE351454010381.7z" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Streamlit/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Streamlit/Misc/historical_timeline_altair.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/Misc/timeline_visualisation/historical_timeline_altair.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Streamlit/Misc/historical_timelines_ht.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/Misc/timeline_visualisation/historical_timelines_ht.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Streamlit/Misc/process_flow_vid.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/Misc/timeline_visualisation/process_flow_vid.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Streamlit/Misc/process_flow_vis_2.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/Misc/timeline_visualisation/process_flow_vis_2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Streamlit/Misc/pyvis_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/Misc/timeline_visualisation/pyvis_test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Streamlit/Misc/timeline.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/Misc/timeline_visualisation/timeline.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Streamlit/Misc/timeline.html" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/Misc/timeline_visualisation/timeline.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Streamlit/Misc/timeline_2.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Streamlit/Misc/timeline_visualisation/timeline_2.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,10 +51,32 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\02_WORK\BAJAJ\POC\MN_Colab\Streamlit\Misc\timeline_visualisation" />
       <recent name="D:\02_WORK\BAJAJ\POC\MN_Colab\Streamlit\Misc\read_dataset" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.streamlit">
+  <component name="RunManager" selected="Python.ExcelOps">
+    <configuration name="ExcelOps" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="MN_Colab" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/DBOps" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Streamlit/DBOps/ExcelOps.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="clean_df" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="MN_Colab" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -83,6 +102,9 @@
       <module name="MN_Colab" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/DBOps" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -101,12 +123,33 @@
       <module name="MN_Colab" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_a2l_pya2l.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="read_dataset_excel" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="MN_Colab" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset_excel" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset_excel/read_dataset_excel.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -140,6 +183,9 @@
       <module name="MN_Colab" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/Misc" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -158,6 +204,9 @@
       <module name="MN_Colab" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -176,6 +225,9 @@
       <module name="MN_Colab" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Streamlit/Misc/read_dataset" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -236,15 +288,18 @@
       <item itemvalue="Python.shared_db" />
       <item itemvalue="Python.streamlit" />
       <item itemvalue="Python.clean_df" />
-      <item itemvalue="Python.crud_operations" />
       <item itemvalue="Python.read_hex" />
-      <item itemvalue="Python.read_hex (1)" />
       <item itemvalue="Python.read_hex_objutils" />
       <item itemvalue="Python.read_hex_intelhex" />
+      <item itemvalue="Python.read_dataset_excel" />
+      <item itemvalue="Python.crud_operations" />
+      <item itemvalue="Python.read_hex (1)" />
       <item itemvalue="Python.read_a2l_pya2l" />
+      <item itemvalue="Python.ExcelOps" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.ExcelOps" />
         <item itemvalue="Python.read_a2l_pya2l" />
         <item itemvalue="Python.read_hex (1)" />
         <item itemvalue="Python.crud_operations" />
@@ -281,6 +336,16 @@
           <url>file://$PROJECT_DIR$/Streamlit/Misc/read_dataset/read_hex.py</url>
           <line>58</line>
           <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Streamlit/Misc/read_dataset_excel/read_dataset_excel.py</url>
+          <line>40</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/Streamlit/DBOps/ExcelOps.py</url>
+          <line>60</line>
+          <option name="timeStamp" value="13" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
