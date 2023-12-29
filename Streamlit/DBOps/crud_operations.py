@@ -48,7 +48,7 @@ class MongoDBHandler:
     def add_document_to_collection(self, document):
         """
 
-        :param document: Document to be inserted in collection
+        :param document: Document to be inserted in collection (Type: dict)
         :return:
         """
         result = self.collection.insert_one(document)
