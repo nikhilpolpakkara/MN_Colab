@@ -12,19 +12,41 @@
           "name": "date",
           "class": "itr",
           "sub_class": "basic_details",
-          "hide": 1,
+          "hide": 0,
           "type": "date",
           "st_input_type": "text_input",
-          "desc": "date"
+          "desc": "date",
+          "required": 0
         },
         {
-          "name": "time",
+          "name": "date_time",
           "class": "itr",
           "sub_class": "basic_details",
           "hide": 1,
-          "type": "time",
+          "type": "datetime",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
+        },
+        {
+          "name": "engineer",
+          "class": "itr",
+          "sub_class": "basic_details",
+          "hide": 0,
+          "type": "model_name",
+          "st_input_type": "text_input",
+          "desc": "",
+          "required": 1
+        },
+        {
+          "name": "model",
+          "class": "itr",
+          "sub_class": "vehicle_details",
+          "hide": 0,
+          "type": "model_name",
+          "st_input_type": "text_input",
+          "desc": "",
+          "required": 0
         },
         {
           "name": "veh_id",
@@ -33,7 +55,8 @@
           "hide": 0,
           "type": "string",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "chassis_no",
@@ -42,7 +65,8 @@
           "hide": 0,
           "type": "string",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "batch",
@@ -51,7 +75,8 @@
           "hide": 0,
           "type": "string",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "tyre_make",
@@ -60,7 +85,8 @@
           "hide": 0,
           "type": "string",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "tyre_size",
@@ -69,7 +95,8 @@
           "hide": 0,
           "type": "string",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "twi",
@@ -78,7 +105,8 @@
           "hide": 0,
           "type": "string",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "odo_reading",
@@ -87,7 +115,8 @@
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "tyre_replace_odo",
@@ -96,7 +125,8 @@
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "tyre_run_km",
@@ -105,7 +135,8 @@
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "tyre_location",
@@ -116,211 +147,254 @@
           "st_input_type": "selectbox",
           "options": [
             "front",
-            "rear",
-            "front_left",
-            "front_right",
-            "rear_left",
-            "rear_right"
+            "rear"
           ],
-          "desc": ""
+          "desc": "",
+          "required": 0,
+          "dependant_variables": [
+            "LH1",
+            "LH2",
+            "LH3",
+            "LH4",
+            "LH5",
+            "LH6",
+            "RH1",
+            "RH2",
+            "RH3",
+            "RH4",
+            "RH5",
+            "RH6",
+            "C1",
+            "C2",
+            "C3",
+            "C4",
+            "C5",
+            "C6",
+            "twi1",
+            "twi2",
+            "twi3",
+            "tc"
+          ]
         },
         {
           "name": "LH1",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "LH2",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "LH3",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "LH4",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "LH5",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "LH6",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "RH1",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "RH2",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "RH3",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "RH4",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "RH5",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "RH6",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "C1",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "C2",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "C3",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "C4",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "C5",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "C6",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "twi1",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "twi2",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "twi3",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         },
         {
           "name": "tc",
           "class": "td",
-          "sub_class": "manual",
+          "sub_class": "entry",
           "hide": 0,
           "type": "float",
           "st_input_type": "text_input",
-          "desc": ""
+          "desc": "",
+          "required": 0
         }
       ],
       "test_results": [],
