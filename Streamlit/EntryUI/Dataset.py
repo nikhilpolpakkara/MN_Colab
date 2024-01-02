@@ -63,11 +63,67 @@ def dataset_entry(client):
                 upload_cvx_file = st.file_uploader("Choose a cvx file", type=["cvx"])
                 # st.header("Enter remark")
 
-                dataset_submit = st.button("REVIEW DATASET CHANGES", use_container_width=True)
-            if dataset_submit:
+                dataset_review = st.button("REVIEW DATASET CHANGES", use_container_width=True)
+
+            if dataset_review:
                 with st.form("REVIEW DATASET CHANGES"):
+                    st.subheader("FUNCTION-WISE DATASET CHANGES")
                     changes_df = pd.read_excel(os.path.abspath("data/changes_df.xlsx"))
-                    notes = st.text_area("Add your notes here:", "")
+                    with st.expander("Function 1"):
+                        c1, c2, c3, c4 = st.columns(4)
+                        with c1:
+                            st.text("Variable")
+                            st.text("Variable 1")
+                            # st.text("V2")
+                            # st.text("V3")
+                            # st.text("V4")
+                        with c2:
+                            st.selectbox("category", ["CAL", "DCM", "Hardware", "Other Dataset"], key="category_1")
+                            # st.selectbox("category", ["CAL", "DCM", "Hardware", "Other Dataset"], key="category_2")
+                            # st.selectbox("category", ["CAL", "DCM", "Hardware", "Other Dataset"], key="category_3")
+                            # st.selectbox("category", ["CAL", "DCM", "Hardware", "Other Dataset"], key="category_4")
+
+                        with c3:
+                            st.selectbox("priority", ["Low", "Medium", "High"], key="priority_1")
+                            # st.selectbox("priority", ["Low", "Medium", "High"], key="priority_2")
+                            # st.selectbox("priority", ["Low", "Medium", "High"], key="priority_3")
+                            # st.selectbox("priority", ["Low", "Medium", "High"], key="priority_5")
+
+                        with c4:
+                            notes = st.text_input("Comment", key="comment_f1_1")
+                            # notes = st.text_input("Comment")
+                            # notes = st.text_input("Comment")
+                            # notes = st.text_input("Comment")
+
+                    with st.expander("Function 2"):
+                        c1, c2, c3, c4 = st.columns(4)
+                        with c1:
+                            st.text("Variable")
+                            st.text("Variable 1")
+                            # st.text("V2")
+                            # st.text("V3")
+                            # st.text("V4")
+                        with c2:
+                            st.selectbox("category", ["CAL", "DCM", "Hardware", "Other Dataset"], key="category_f2_1")
+                            # st.selectbox("category", ["CAL", "DCM", "Hardware", "Other Dataset"], key="category_2")
+                            # st.selectbox("category", ["CAL", "DCM", "Hardware", "Other Dataset"], key="category_3")
+                            # st.selectbox("category", ["CAL", "DCM", "Hardware", "Other Dataset"], key="category_4")
+
+                        with c3:
+                            st.selectbox("priority", ["Low", "Medium", "High"], key="priority_f2__1")
+                            # st.selectbox("priority", ["Low", "Medium", "High"], key="priority_2")
+                            # st.selectbox("priority", ["Low", "Medium", "High"], key="priority_3")
+                            # st.selectbox("priority", ["Low", "Medium", "High"], key="priority_5")
+
+                        with c4:
+                            notes = st.text_input("Comment", key="comment_f2_1")
+                            # notes = st.text_input("Comment")
+                            # notes = st.text_input("Comment")
+                            # notes = st.text_input("Comment")
+
+                    dataset_upload = st.form_submit_button("SUBMIT DATASET", use_container_width=True)
+
+
         with tab2:
             df = get_df(client, selected_model)
             st.write(df)

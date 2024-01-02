@@ -151,6 +151,10 @@ def main():
                         {
                             "label": "2W EMISSION DASHBOARD",
                             "value": "emission_dashboard_2w"
+                        },
+                        {
+                            "label": "3WD EMISSION DASHBOARD",
+                            "value": "emission_dashboard_3wd"
                         }
                     ]
                 },
@@ -229,6 +233,8 @@ def main():
                 Dataset.dataset_entry(client)
             elif selected_page == 'dataset_discussion':
                 Dataset.dataset_discussion()
+            elif selected_page == "emission_dashboard_3wd":
+                Emission.emission_dashboard_3wd()
 
 
 if __name__ == "__main__":
