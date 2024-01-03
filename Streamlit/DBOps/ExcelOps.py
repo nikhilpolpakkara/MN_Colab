@@ -3,6 +3,34 @@ from openpyxl import load_workbook
 import re
 
 
+def excel_ref_to_indices(ref):
+    # Regular expression pattern to split Excel-like reference strings
+    pattern = r'([A-Z]+)(\d+):([A-Z]+)(\d+)'
+
+    # Match the pattern in the reference string
+    match = re.match(pattern, ref)
+
+    if match:
+        start_col, start_row, end_col, end_row = match.groups()
+
+        # Function to convert column reference to index
+        def col_ref_to_index(col_ref):
+            num = 0
+            for i, c in enumerate(reversed(col_ref)):
+                num += (ord(c) - ord('A') + 1) * (26 ** i)
+            return num
+
+        # Convert references to indices
+        start_col = col_ref_to_index(start_col)
+        end_col = col_ref_to_index(end_col)
+        start_row = int(start_row)
+        end_row = int(end_row)
+
+        return start_col, start_row, end_col, end_row
+    else:
+        return None
+
+
 def get_df_from_cell_reference(sheet, ref, index=True, header=True):
     """
     Reads data from a specified range reference in an Excel file and returns it as a DataFrame.
@@ -16,11 +44,7 @@ def get_df_from_cell_reference(sheet, ref, index=True, header=True):
     """
     try:
         # Parsing reference string to get start and end cells
-        start_col, start_row, end_col,  end_row = re.findall(r'[A-Z]+|\d+', ref)
-        start_col = ord(start_col) - ord('A') + 1
-        start_row = int(start_row)
-        end_col = ord(end_col) - ord('A') + 1
-        end_row = int(end_row)
+        start_col, start_row, end_col,  end_row = excel_ref_to_indices(ref)
         first_row = True
         index_values = []
         # Accessing data within the specified range
@@ -41,9 +65,8 @@ def get_df_from_cell_reference(sheet, ref, index=True, header=True):
         return df
 
     except Exception as e:
-        raise
         print(f"Error reading Excel file: {e}")
-        return None
+        raise
 
 
 if __name__ == "__main__":
@@ -54,7 +77,10 @@ if __name__ == "__main__":
         map_table = ws.tables["KFMSWDKQ"]
         ref = map_table.ref
         map_df = get_df_from_cell_reference(ws, map_table.ref)
-        map_df.columns = map_df.columns.astype("float")
+        try:
+            map_df.columns = map_df.columns.astype("float")
+        except:
+            pass
         map_df.reset_index(inplace=True)
         df_long = map_df.melt(id_vars='index', var_name='y', value_name='value')
         df_long.columns = ["x", "y", "value"]

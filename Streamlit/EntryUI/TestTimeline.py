@@ -1,5 +1,5 @@
 import streamlit as st
-from DBOps import crud_operations
+from DBOps import MongoDBOps
 from DataTools import DictTools
 from plotting_package import plotly_tools
 from datetime import datetime, timedelta

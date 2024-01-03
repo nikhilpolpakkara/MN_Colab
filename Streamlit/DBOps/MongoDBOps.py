@@ -58,25 +58,23 @@ class MongoDBHandler:
         else:
             return 0
 
-    def append_to_list_by_id(self, document_id, field_to_update, new_value):
+    def append_list_values_to_level_1_collection_list_field(self, document_filter, field_to_update, new_values):
         """
-        Find a document by its _id and append a value to a list field.
+        Find a document by its filter and append a list of values to a list field.
 
         Parameters:
-        - collection: pymongo.collection.Collection, the MongoDB collection
-        - document_id: any, the _id value of the document to update
+        - document_filter: dict, filter condition to find the document(s) to update
         - field_to_update: str, the name of the list field to append to
-        - new_value: any, the value to append to the list
+        - new_values: list, the list of values to append to the list
         """
-        filter_condition = {'_id': document_id}
-        update_operation = {'$push': {field_to_update: new_value}}
+        update_operation = {'$push': {field_to_update: {'$each': new_values}}}
 
-        result = self.collection.update_one(filter_condition, update_operation)
+        result = self.collection.update_one(document_filter, update_operation)
 
         if result.modified_count > 0:
-            print(f"Appended {new_value} to the list in document with _id {document_id}")
+            print(f"Appended {len(new_values)} items to the list in document matching {document_filter}")
         else:
-            print(f"No document with _id {document_id} found")
+            print(f"No document matching {document_filter} found")
 
     def generate_id(self, counter):
         try:
@@ -384,7 +382,7 @@ class MongoDBHandler:
 
     def sync_collections(self, destination_client):
         # Connect to MongoDB clients
-        source = MongoClient(self.client)
+        source = self.client
         destination = MongoClient(destination_client)
 
         # Get database names from both clients
@@ -438,16 +436,37 @@ class MongoDBHandler:
                     destination_collection = destination_db[collection_name]
 
                     documents = source_collection.find()
-                    destination_collection.insert_many(documents)
+                    try:
+                        destination_collection.insert_many(documents)
+                    except:
+                        pass
 
         # Close connections
         source.close()
         destination.close()
 
 
+class MongoDBErrorHandler:
+    def __init__(self, client):
+        self.client = client
+        self.db = self.client["common"]
+        self.collection = self.db["ERROR_LOG"]
+
+    def log_error(self, error_message):
+        error_document = {
+            "timestamp": datetime.utcnow(),
+            "error_message": error_message
+        }
+
+        # Insert the document into the collection
+        self.collection.insert_one(error_document)
+
+
+
+
 if __name__ == "__main__":
-    # client = MongoClient("mongodb://10.11.10.72:27017/")
-    client = MongoClient("mongodb://10.11.10.95:27017/")
+    client = MongoClient("mongodb://10.11.10.72:27017/")
+    # client = MongoClient("mongodb://10.11.10.95:27017/")
 
     datahandler = MongoDBHandler(client)
 
@@ -480,10 +499,8 @@ if __name__ == "__main__":
 
     # datahandler.transfer_collection("CAL", "DATASETS", "CAL", "dataset_log")
 
-    # Usage example
-    source_uri = "mongodb://user1:password1@localhost:27017/"
-    destination_uri = "mongodb://user2:password2@localhost:27017/"
-
-    sync_collections(source_uri, destination_uri)
+    source_uri = client
+    destination_uri = "mongodb://localhost:27017"
+    datahandler.sync_collections(destination_uri)
 
 

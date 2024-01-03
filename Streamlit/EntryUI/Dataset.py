@@ -1,6 +1,6 @@
 import streamlit as st
 import datetime
-from DBOps import crud_operations
+from DBOps import MongoDBOps
 import pandas as pd
 from plotting_package import plotly_tools
 from DataTools import DfTools

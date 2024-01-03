@@ -1,6 +1,6 @@
 import streamlit as st
 import datetime
-from DBOps import crud_operations
+from DBOps import MongoDBOps
 import pandas as pd
 from plotting_package import plotly_tools
 from DataTools import DfTools
@@ -286,7 +286,11 @@ def test_data_entry(department_name, test_activity_name, client):
 
                 test_data_handler.add_document_to_collection(f_data)
                 test_data_handler.add_document_to_collection(r_data)
-                vehicle_details_handler.append_to_list_by_id(veh_id, "test_history", f"{test_id}_{test_no}")
+                vehicle_details_handler.append_list_values_to_level_1_collection_list_field(
+                    document_filter={"_id": veh_id},
+                    field_to_update="test_history",
+                    new_value=[f"{test_id}_{test_no}"]
+                )
 
         st.button("ENTER NEW DATA",
                   use_container_width=True,

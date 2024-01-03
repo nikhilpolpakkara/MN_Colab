@@ -1,6 +1,6 @@
 import streamlit as st
 import datetime
-from DBOps import crud_operations
+from DBOps import MongoDBOps
 
 line_color = "#2a9df4"
 

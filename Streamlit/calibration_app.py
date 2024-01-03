@@ -1,7 +1,7 @@
 import streamlit as st
 from pymongo import MongoClient
 from EntryUI import TyreWear, TyreWear2, Emission, TestTimeline
-from DBOps import crud_operations
+from DBOps import MongoDBOps
 from streamlit_tree_select import tree_select
 from EntryUI import Dataset
 
@@ -12,8 +12,8 @@ line_color = "#2a9df4"
 def load_connection():
     print("Establishing Database Connection")
     # client = MongoClient("mongodb://localhost:27017/")
-    # client = MongoClient("mongodb://10.11.10.95:27017/")
-    client = MongoClient("mongodb://10.11.10.72:27017/")
+    client = MongoClient("mongodb://10.11.10.95:27017/")
+    # client = MongoClient("mongodb://10.11.10.72:27017/")
     # client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
     return client
 
@@ -21,7 +21,7 @@ def load_connection():
 @st.cache_resource(ttl="30s")
 def load_data_handler(database, collection, _client):
     print("Loading Data Handler")
-    dept_details_handler = crud_operations.MongoDBHandler(_client)
+    dept_details_handler = MongoDBOps.MongoDBHandler(_client)
     dept_details_handler.load_database("common")
     dept_details_handler.load_collection("department_details")
     return dept_details_handler
@@ -58,11 +58,9 @@ def load_entry_page(selected_department, selected_test_activity, _client):
         Emission.emission_entry()
 
 
-
 def load_analytics_page(selected_department, selected_analytics, _client):
     if selected_analytics == "tyre wear analytics":
         TyreWear2.tyre_wear_analytics(selected_department, _client)
-
 
 
 def load_dashboard_page(selected_dashboard, _client):
@@ -100,47 +98,6 @@ def main():
     st.sidebar.title("CALIBRATION APP")
     st.sidebar.markdown(f'<hr style="border-top: 1px solid {line_color};">', unsafe_allow_html=True)
     client = load_connection()
-
-    # mode = st.sidebar.selectbox("WHAT YOU WANT TO DO ?", ["TEST DATA ENTRY", "ADD NEW VEHICLE/COMPONENT", "ANALYTICS", "DASHBOARDS"])
-    # dept_details_handler = load_data_handler(
-    #     database="common",
-    #     collection="department_details",
-    #     _client=client
-    # )
-    # dept_names = get_dept_names(dept_details_handler)
-    #
-    # if mode == "ANALYTICS":
-    #     selected_department = st.sidebar.selectbox("Department".upper(), dept_names, index=None)
-    #     expander_dict = create_expander_dict()
-    #     print("Loading sidebar expanders")
-    #     with expander_dict["analytics_expander"]:
-    #         selected_analytics = st.selectbox("SELECT ANALYTICS",
-    #                                           dept_details_handler.get_field_values_from_level_1_document(
-    #                                               l_1_c_filter={"name": selected_department},
-    #                                               l_1_d_field_name="analytics"
-    #                                           ),
-    #                                           index=None
-    #                                           )
-    #     load_analytics_page(selected_department, selected_analytics, client)
-    # elif mode == "TEST DATA ENTRY":
-    #     selected_department = st.sidebar.selectbox("Department".upper(), dept_names, index=None)
-    #     expander_dict = create_expander_dict()
-    #
-    #     with expander_dict["test_entry_expander"]:
-    #         st.sidebar.markdown(
-    #             "<br>",
-    #             unsafe_allow_html=True
-    #         )
-    #         activity_list = get_activity_list(dept_details_handler, selected_department)
-    #
-    #         selected_test_activity = st.selectbox(
-    #             "Select Test Activity".upper(),
-    #             activity_list,
-    #             index=None
-    #         )
-    #
-    #     load_entry_page(selected_department, selected_test_activity, client)
-    #     # update_entry_sidebar(selected_department, expander_dict["entry_expander"])
 
     nodes = [
 

@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from plotting_package import plotly_tools
 from EntryUI import common
 from Misc import get_html_report
-from DBOps import crud_operations
+from DBOps import MongoDBOps
 from DataTools import StringTools
 
 

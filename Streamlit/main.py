@@ -1,7 +1,7 @@
 import streamlit as st
 from pymongo import MongoClient
 from EntryUI import TyreWear, TyreWear2, Emission, TestTimeline
-from DBOps import crud_operations
+from DBOps import MongoDBOps
 from streamlit_tree_select import tree_select
 from EntryUI import Dataset
 

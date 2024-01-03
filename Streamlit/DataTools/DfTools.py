@@ -25,6 +25,13 @@ def calculate_difference_from_min(df, target_column, reference_column):
     return df[target_column] - df[target_column][min_index]
 
 
+def convert_to_float_or_str(value):
+    try:
+        return float(value)
+    except (ValueError, TypeError):
+        return value
+
+
 if __name__ == "__main__":
     filepath = r"C:\Users\nikhilp\Desktop\2023-12-12T11-36_export.csv"
     df = pd.read_csv(filepath)
