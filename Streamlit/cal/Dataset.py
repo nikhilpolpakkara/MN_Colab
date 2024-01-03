@@ -1,5 +1,4 @@
 from openpyxl import load_workbook
-import numpy as np
 from DBOps import ExcelOps, MongoDBOps
 from DataTools import StringTools, DfTools
 from pymongo import MongoClient
@@ -39,6 +38,7 @@ class ExcelDataset:
         try:
             map_df.columns = map_df.columns.astype("float")
         except Exception as e:
+            print(e)
             pass
         map_df.reset_index(inplace=True)
         map_df = map_df.melt(id_vars='index', var_name='y', value_name='value')
