@@ -301,7 +301,7 @@ def emission_dashboard_2w():
 
 def emission_dashboard_3wd():
     def load_df(file_path):
-        df = pd.read_csv(file_path)
+        df = pd.read_csv(file_path, encoding='latin-1')
         return df
 
     def get_models(df):
@@ -344,7 +344,7 @@ def emission_dashboard_3wd():
             return fig
 
     def get_pollutant_history_for_model(filtered_df):
-        selected_columns = ["CO%", "HC%", "NOX%", "PM%"]
+        selected_columns = ["CO%", "HC+Nox%", "NOX%", "PM%"]
         colors = common.generate_color_palette(selected_columns)
         filtered_df["Tests"] = pd.Categorical(np.arange(1, len(filtered_df)+1))
         fig_line_chart = go.Figure()
@@ -371,7 +371,7 @@ def emission_dashboard_3wd():
 
     def get_pollutant_box_plot(filtered_data):
         # Select columns for boxplot
-        selected_columns = ["CO%", "HC%", "NOX%", "PM%"]
+        selected_columns = ["CO%", "HC+Nox%", "NOX%", "PM%"]
         colors = common.generate_color_palette(selected_columns)
         data = pd.DataFrame({
             'CO%': np.random.randint(0, 150, 100),
@@ -444,7 +444,7 @@ def emission_dashboard_3wd():
     st.title("3W DIESEL EMISSION DASHBOARD")
     file_path = "data/3WD_emission.csv"
 
-    df = load_df(file_path, errors='ignore')
+    df = load_df(file_path)
     df["DATE"] = pd.to_datetime(df["DATE"], format='%d/%m/%Y')
     # df['VTC'] = "VTC_"+df['VTC'].astype(str)
     selected_model = st.sidebar.selectbox("Select Model Name:", get_models(df))

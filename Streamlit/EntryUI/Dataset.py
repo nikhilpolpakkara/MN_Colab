@@ -24,7 +24,7 @@ def get_df(client,project_id):
     # print(project_id)
     dataset_history_handler = crud_operations.MongoDBHandler(client)
     dataset_history_handler.load_database("CAL")
-    dataset_history_handler.load_collection("DATASETS")
+    dataset_history_handler.load_collection("dataset_log")
     dataset_hist = dataset_history_handler.get_field_values_from_level_1_collection(
         field_names=["date",
                      "project_name",
