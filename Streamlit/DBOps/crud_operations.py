@@ -380,15 +380,75 @@ class MongoDBHandler:
         data = df.to_dict(orient='records')
         self.collection.insert_many(data)
 
+    from pymongo import MongoClient
+
+    def sync_collections(self, destination_client):
+        # Connect to MongoDB clients
+        source = MongoClient(self.client)
+        destination = MongoClient(destination_client)
+
+        # Get database names from both clients
+        source_dbs = source.list_database_names()
+        destination_dbs = destination.list_database_names()
+
+        # Compare databases and sync collections
+        for db_name in source_dbs:
+            if db_name in destination_dbs:
+                source_db = source[db_name]
+                destination_db = destination[db_name]
+
+                source_collections = source_db.list_collection_names()
+                destination_collections = destination_db.list_collection_names()
+
+                for collection_name in source_collections:
+                    if collection_name in destination_collections:
+                        # Collection exists in both databases
+                        source_collection = source_db[collection_name]
+                        destination_collection = destination_db[collection_name]
+
+                        # Compare documents and sync
+                        for doc in source_collection.find():
+                            existing_doc = destination_collection.find_one({"_id": doc["_id"]})
+                            if existing_doc:
+                                if existing_doc != doc:
+                                    # If documents are different, update the document
+                                    destination_collection.replace_one({"_id": doc["_id"]}, doc)
+                            else:
+                                # If document doesn't exist, insert it
+                                destination_collection.insert_one(doc)
+                    else:
+                        # Collection exists in source but not in destination
+                        print(f"Copying collection {collection_name} from source to destination...")
+                        source_collection = source_db[collection_name]
+                        destination_db.create_collection(collection_name)
+                        destination_collection = destination_db[collection_name]
+
+                        documents = source_collection.find()
+                        destination_collection.insert_many(documents)
+            else:
+                # Database exists in source but not in destination
+                print(f"Copying database {db_name} from source to destination...")
+                source_db = source[db_name]
+                destination_db = destination[db_name]
+
+                collections = source_db.list_collection_names()
+                for collection_name in collections:
+                    source_collection = source_db[collection_name]
+                    destination_db.create_collection(collection_name)
+                    destination_collection = destination_db[collection_name]
+
+                    documents = source_collection.find()
+                    destination_collection.insert_many(documents)
+
+        # Close connections
+        source.close()
+        destination.close()
+
 
 if __name__ == "__main__":
-    # client = MongoClient("mongodb://localhost:27017/")
-    # client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
-    # client = MongoClient("mongodb+srv://nikhilpolpakkara:Aspire_13@cluster0.4cun9lz.mongodb.net/?retryWrites=true&w=majority")
-    # client = MongoClient("mongodb://192.168.241.61:27017/")
+    # client = MongoClient("mongodb://10.11.10.72:27017/")
+    client = MongoClient("mongodb://10.11.10.95:27017/")
 
-    client = MongoClient("mongodb://10.11.10.72:27017/")
-    # client = MongoClient("mongodb://10.11.10.95:27017/")
     datahandler = MongoDBHandler(client)
 
     # datahandler.load_database("testing_history")
@@ -398,8 +458,8 @@ if __name__ == "__main__":
     # csv_path = "../data/emission_csv/single_line_csv_etr_entry.csv"
     # datahandler.import_documents_from_csv(csv_path, "emission_dashboard", "testing_history")
 
-    datahandler.load_database("testing_history")
-    datahandler.load_collection("timeline")
+    # datahandler.load_database("testing_history")
+    # datahandler.load_collection("timeline")
     # start_time = (datetime.now() - timedelta(days=30)).strftime('%d-%m-%Y %H:%M:%S')
     # end_time = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
     # s = "20-11-2023 00:00:00"
@@ -418,5 +478,12 @@ if __name__ == "__main__":
     # datahandler.export_all_databases(output_directory=r"D:\BAL Projects\01_Misc\MN_Colab\Streamlit\db")
     # datahandler.import_all_databases(r"D:\BAL Projects\01_Misc\MN_Colab\Streamlit\db")
 
+    # datahandler.transfer_collection("CAL", "DATASETS", "CAL", "dataset_log")
+
+    # Usage example
+    source_uri = "mongodb://user1:password1@localhost:27017/"
+    destination_uri = "mongodb://user2:password2@localhost:27017/"
+
+    sync_collections(source_uri, destination_uri)
 
 

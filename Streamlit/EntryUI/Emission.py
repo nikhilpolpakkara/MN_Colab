@@ -1,22 +1,30 @@
 import streamlit as st
 import numpy as np
-from Misc import get_html_report
-from DBOps import crud_operations
 import pandas as pd
 from pymongo import MongoClient
-from DataTools import StringTools
 import os
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
+
 from plotting_package import plotly_tools
 from EntryUI import common
+from Misc import get_html_report
+from DBOps import crud_operations
+from DataTools import StringTools
+
+
 def emission_entry():
     pass
 
 
 def emission_analysis_ui():
+    st.text("FILTERS")
     etr1 = st.text_input("ETR 1", key="etr_1")
+    etr2 = st.text_input("ETR 2", key="etr_2")
+    etr3 = st.text_input("ETR 3", key="etr_3")
+    etr4 = st.text_input("ETR 4", key="etr_4")
+    etr5 = st.text_input("ETR 5", key="etr_5")
     # etr2 = st.text_input("ETR 2", key="etr_2")
     if st.button("GET REPORT"):
         etr_no_required = [etr1]
