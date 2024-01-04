@@ -54,6 +54,26 @@ class ExcelDataset:
 
         return doc
 
+    def get_curve_document(self, curve_name):
+        curve_table = self.curves_ws.tables[curve_name]
+        curve_df = ExcelOps.get_df_from_cell_reference(self.curves_ws, curve_table.ref)
+        curve_df = curve_df.dropna()
+        try:
+            curve_df.columns = curve_df.columns.astype("float")
+        except Exception as e:
+            print(e)
+            pass
+        curve_df = curve_df.melt(var_name='x', value_name='value')
+        doc = {
+            "name": curve_name,
+            "value": curve_df.to_dict(orient="records"),
+            "function": "",
+            "sub_function": "",
+            "category": "",
+            "variable_type": "CURVE"
+        }
+        return doc
+
     def load_mongo_client(self, client):
         self.client = client
         self.datahandler = MongoDBOps.MongoDBHandler(client)
@@ -95,12 +115,56 @@ class ExcelDataset:
             new_values=map_documents
         )
 
+    def transfer_curves_to_mongodb(self):
+        curve_documents = []
+        for curve_name in self.curves_ws.tables:
+            curve_doc = self.get_curve_document(curve_name)
+            curve_documents.append(curve_doc)
 
-if __name__ == "__main__":
+        self.datahandler.append_list_values_to_level_1_collection_list_field(
+            document_filter={"dataset_id": self.dataset_name},
+            field_to_update="hex_data",
+            new_values=curve_documents
+        )
+
+
+class MongoDBDataset:
+    def __init__(self, dataset_id, client):
+        self.dataset_id = dataset_id
+        self.client = client
+        self.handler = MongoDBOps.MongoDBHandler(client)
+        self.handler.load_database("CAL")
+        self.handler.load_collection("DATASETS")
+
+    def get_variable(self, variable_name):
+        dataset_filter = {"dataset_id": self.dataset_id}
+        hex_data_field = "hex_data"
+        variable_filter = {"field_name": "name", "field_value": variable_name}
+        variable_doc = self.handler.get_document_from_level_2_collection(
+            nested_array=hex_data_field,
+            collection_filter=dataset_filter,
+            array_document_filter=variable_filter
+        )
+        return variable_doc
+
+
+def transfer_dataset_excel_to_mongodb():
     dataset_excel_file_path = "../data/T400_5N_dataset_step120.xlsx"
-    client = MongoClient("mongodb://localhost:27017")
     dataset = ExcelDataset(dataset_excel_file_path)
     dataset.load_mongo_client(client=client)
     if not dataset.check_dataset_document():
         dataset.transfer_svp_to_mongodb()
         dataset.transfer_maps_to_mongodb()
+        dataset.transfer_curves_to_mongodb()
+
+
+if __name__ == "__main__":
+    client = MongoClient("mongodb://localhost:27017")
+
+    # transfer_dataset_excel_to_mongodb()
+
+    dataset = MongoDBDataset(dataset_id="T400_5N_dataset_step120", client=client)
+    dataset.get_variable("KFMSWDKQ")
+
+
+

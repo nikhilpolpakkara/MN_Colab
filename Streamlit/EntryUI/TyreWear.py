@@ -18,12 +18,15 @@ def test_data_entry(tyre_wear_doc, test_data_handler, client):
 
     st.title(f":blue[{tyre_wear_doc['name'].upper()}]")
 
-    tab1, tab2, tab3 = st.tabs(["Test Data Entry", "Add New Vehicle" ,"Add New tyre"])
+    tab1, tab2, tab3 = st.tabs(["Test Data Entry", "Add New Vehicle", "Add New tyre"])
 
     vehicle_details_handler = test_data_handler
     vehicle_details_handler.load_collection("vehicle_details")
     options_dict = {
-       "veh_id": vehicle_details_handler.get_field_values_from_level_1_collection(field_names=["rev_no"], project_id=True),
+       "veh_id": vehicle_details_handler.get_field_values_from_level_1_collection(
+           field_names=["rev_no"],
+           project_id=True
+       ),
     }
 
     with tab1:
@@ -77,7 +80,6 @@ def test_data_entry(tyre_wear_doc, test_data_handler, client):
                                         options=test_parameter["options"],
                                         index=None,
                                     )
-
 
             st.markdown(f'<hr style="border-top: 1px solid {line_color};">', unsafe_allow_html=True)
 
@@ -157,7 +159,7 @@ def test_data_entry(tyre_wear_doc, test_data_handler, client):
             tyre_form_submit = st.form_submit_button("Submit")
 
             if tyre_form_submit:
-                db_handler = crud_operations.MongoDBHandler(client)
+                db_handler = MongoDBOps.MongoDBHandler(client)
                 db_handler.load_database("common")
                 db_handler.load_collection("counter")
                 tyre_id = db_handler.generate_id(counter="tyre_id")

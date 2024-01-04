@@ -53,7 +53,7 @@ def test_data_entry(department_name, test_activity_name, client):
         else:
             add_new_vehicle()
 
-    dept_details_handler = crud_operations.MongoDBHandler(client)
+    dept_details_handler = MongoDBOps.MongoDBHandler(client)
     dept_details_handler.load_database("common")
     dept_details_handler.load_collection("department_details")
 
@@ -65,7 +65,7 @@ def test_data_entry(department_name, test_activity_name, client):
     test_id = test_activity_doc["test_id"]
     tab1, tab2, tab3 = st.tabs(["Test Data Entry", "Add New tyre", "Tyre Catalogue"])
 
-    vehicle_details_handler = crud_operations.MongoDBHandler(client)
+    vehicle_details_handler = MongoDBOps.MongoDBHandler(client)
     vehicle_details_handler.load_database("testing_history")
     vehicle_details_handler.load_collection("vehicle_testing")
 
@@ -73,7 +73,7 @@ def test_data_entry(department_name, test_activity_name, client):
         "veh_id": vehicle_details_handler.get_field_values_from_level_1_collection(field_names=["_id"], project_id=True),
     }
 
-    test_data_handler = crud_operations.MongoDBHandler(client)
+    test_data_handler = MongoDBOps.MongoDBHandler(client)
     test_data_handler.load_database("testing_data")
     test_data_handler.load_collection(test_id)
 
@@ -200,7 +200,7 @@ def test_data_entry(department_name, test_activity_name, client):
                 r_c = r_c[0]
                 r_nsd = min([r_lh, r_rh, r_c])
 
-                db_handler = crud_operations.MongoDBHandler(client)
+                db_handler = MongoDBOps.MongoDBHandler(client)
                 db_handler.load_database("common")
                 db_handler.load_collection("counter")
                 test_no = db_handler.generate_id(counter="tyre_wear_test_counter")
@@ -313,7 +313,7 @@ def test_data_entry(department_name, test_activity_name, client):
             tyre_form_submit = st.form_submit_button("Submit")
 
             if tyre_form_submit:
-                db_handler = crud_operations.MongoDBHandler(client)
+                db_handler = MongoDBOps.MongoDBHandler(client)
                 db_handler.load_database("common")
                 db_handler.load_collection("counter")
                 tyre_id = db_handler.generate_id(counter="tyre_id")
@@ -340,7 +340,7 @@ def test_data_entry(department_name, test_activity_name, client):
                     st.error("Error saving document to MongoDB.")
 
     with tab3:
-        tyre_details_handler = crud_operations.MongoDBHandler(client)
+        tyre_details_handler = MongoDBOps.MongoDBHandler(client)
         tyre_details_handler.load_database("SpecsDB")
         tyre_details_handler.load_collection("tyre")
         df = tyre_details_handler.get_collection_dataframe(exclude_columns=["section_width", "aspect_ratio", "rim_dia"])
@@ -349,11 +349,11 @@ def test_data_entry(department_name, test_activity_name, client):
 
 def tyre_wear_analytics(selected_department, client):
     def load_data_handlers():
-        veh_details_data_handler = crud_operations.MongoDBHandler(client)
+        veh_details_data_handler = MongoDBOps.MongoDBHandler(client)
         veh_details_data_handler.load_database("testing_history")
         veh_details_data_handler.load_collection("vehicle_testing")
 
-        test_data_handler = crud_operations.MongoDBHandler(client)
+        test_data_handler = MongoDBOps.MongoDBHandler(client)
         test_data_handler.load_database("testing_data")
         test_data_handler.load_collection("du_1")
         return veh_details_data_handler, test_data_handler

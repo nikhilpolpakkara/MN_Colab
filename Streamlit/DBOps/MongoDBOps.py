@@ -157,11 +157,11 @@ class MongoDBHandler:
         pipeline = [
             {"$match": collection_filter},  # Match the document by its ID
             {"$project": {
-                "test_activity": {
+                nested_array: {
                     "$filter": {
                         "input": f"${nested_array}",
-                        "as": "activity",
-                        "cond": {"$eq": [f"$$activity.{array_document_filter['field_name']}",
+                        "as": nested_array,
+                        "cond": {"$eq": [f"$${nested_array}.{array_document_filter['field_name']}",
                                          array_document_filter['field_value']]}
                     }
                 },
