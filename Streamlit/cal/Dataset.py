@@ -2,7 +2,7 @@ from openpyxl import load_workbook
 from DBOps import ExcelOps, MongoDBOps
 from DataTools import StringTools, DfTools
 from pymongo import MongoClient
-
+from DBOps import TxtOps
 
 class ExcelDataset:
     def __init__(self, excel_file_path):
@@ -147,8 +147,97 @@ class MongoDBDataset:
         )
         return variable_doc
 
+class DCMdataset:
+    def __init__(self, dcm_file_path, ems = "BOSCH"):
+        self.dcm_path = dcm_file_path
+        self.svp = []
+        self.curve = []
+        self.map = []
+        self.ems = ems
+        self.characteristic_identifier : dict
+
+    def detect_ems(self):
+        pass
+    def get_characteristic_dcm_variables(self):
+        """
+        Variable names to identify and sort DCM
+        :return:
+        """
+        if self.ems == "BOSCH":
+            self.characteristic_identifier = {"map":"KENNFELD",
+                                              "curve":"KENNLINIE",
+                                              "grouped_map":"GRUPPENKENNFELD",
+                                              "grouped_curve":"GRUPPENKENNLINIE",
+                                              "svp":"FESTWERT"}
+
+    def extract_curve(self, lines):
+        stx_values = []
+        wert_values = []
+
+        for line in lines:
+            if line.startswith("ST/X"):
+                # Extract ST/X values and remove the word "ST/X"
+                stx_line = line.replace("ST/X", "").strip()
+                stx_values.extend(map(float, stx_line.split()))
+            elif line.startswith("WERT"):
+                # Extract WERT values and remove the word "WERT"
+                wert_line = line.replace("WERT", "").strip()
+                wert_values.extend(map(float, wert_line.split()))
+
+        result_list = [{'x': x, 'value': value} for x, value in zip(stx_values, wert_values)]
+
+        return result_list
+
+    def extract_map(self, lines):
+        current_map = []
+        current_x_values = None
+        current_y_values = None
+
+        for line in lines:
+            if line.startswith("ST/X"):
+                current_x_values = list(map(float, line.replace("ST/X", "").strip().split()))
+            elif line.startswith("ST/Y"):
+                current_y_values = float(line.replace("ST/Y", "").strip())
+            elif line.startswith("WERT"):
+                wert_values = list(map(float, line.replace("WERT", "").strip().split()))
+
+                if current_x_values and current_y_values is not None:
+                    for x, value in zip(current_x_values, wert_values):
+                        current_map.append({'x': x, 'y': current_y_values, 'value': value})
+
+        return current_map
+    def get_content(self):
+        dcm_content = TxtOps.extract_content_from_txt(self.dcm_path)
+        return dcm_content
+
+    def get_functions(self):
+        dcm_content = self.get_content()
+        function_names = TxtOps.find_lines_between_keywords(dcm_content,"FUNKTIONEN", "END")
+        return function_names
+
+    def read_content(self):
+        dcm_content = TxtOps.split_lines_by_end(self.get_content(),"END")[1:]
+        for content in dcm_content:
+            variable_data = {}
+            variable_data['name'] = content[1].split()[1]
+            variable_data['function_name'] = content[3].split()[1]
+            if content[1].startswith(self.characteristic_identifier['svp']):
+                variable_data['value'] = content[5].split()[1]
+                self.svp.append(variable_data)
+            elif content[1].startswith(self.characteristic_identifier['curve']) or \
+                    content[1].startswith(self.characteristic_identifier['grouped_curve']):
+                variable_data['data'] = self.extract_curve(content)
+                self.curve.append(variable_data)
+            elif content[1].startswith(self.characteristic_identifier['map']) or \
+                    content[1].startswith(self.characteristic_identifier['grouped_map']):
+                variable_data['data'] = self.extract_map(content)
+                self.map.append(variable_data)
+
+
+
 
 def transfer_dataset_excel_to_mongodb():
+    client = MongoClient("mongodb://localhost:27017")
     dataset_excel_file_path = "../data/T400_5N_dataset_step120.xlsx"
     dataset = ExcelDataset(dataset_excel_file_path)
     dataset.load_mongo_client(client=client)
@@ -159,12 +248,21 @@ def transfer_dataset_excel_to_mongodb():
 
 
 if __name__ == "__main__":
-    client = MongoClient("mongodb://localhost:27017")
+    # client = MongoClient("mongodb://localhost:27017")
+    #
+    # # transfer_dataset_excel_to_mongodb()
+    #
+    # dataset = MongoDBDataset(dataset_id="T400_5N_dataset_step120", client=client)
+    # dataset.get_variable("KFMSWDKQ")
+    file_path = r"D:\BAL Projects\01_Misc\MN_Colab\Streamlit\data\DCM_STEP2A_V2___FOR_3W.DCM"
+    # with open(file_path, 'r') as file:
+    #     file_lines = file.readlines()
 
-    # transfer_dataset_excel_to_mongodb()
+    dcm_handler = DCMdataset(file_path)
+    dcm_handler.get_characteristic_dcm_variables()
+    dcm_handler.read_content()
 
-    dataset = MongoDBDataset(dataset_id="T400_5N_dataset_step120", client=client)
-    dataset.get_variable("KFMSWDKQ")
+
 
 
 
