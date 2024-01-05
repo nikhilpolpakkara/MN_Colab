@@ -76,28 +76,32 @@ def dataset_entry(client):
                     index=None,
                     placeholder="Select Base Dataset"
                 )
-                current_hex_file = st.file_uploader("Choose a HEX file", type=["hex"])
-                current_cvx_file = st.file_uploader("Choose a cvx file", type=["cvx"])
                 if base_dataset == "New Software":
-                    current_a2l_file = st.file_uploader("Choose a a2L file", type=["a2L"])
+                    external_parent_dataset = st.selectbox(
+                        label="SELECT PARENT DATASET",
+                        options=dataset_list,
+                        placeholder="Select Parent Dataset",
+                        index=None
+                    )
+
+                current_hex_file = st.file_uploader("Choose Current HEX file", type=["hex"])
+                current_cvx_file = st.file_uploader("Choose Current cvx file", type=["cvx"])
+                if base_dataset == "New Software":
+                    current_a2l_file = st.file_uploader("Choose New Software a2L file", type=["a2L"])
                     current_a2l_step = st.text_input("Please Specify the Software Step")
 
-                external_import = st.radio("Have you imported from other datasets or DCM's ?", options=["No", "Yes"])
+                external_import = st.radio("Have you imported from other datasets or DCM's ?", options=["No", "Yes"], horizontal=True)
                 if external_import == "Yes":
                     external_dcms = st.file_uploader("Choose DCM files", type=["DCM"], accept_multiple_files=True)
-                    if base_dataset == "New Software":
-                        external_parent_dataset = st.selectbox(
-                            label="Select Parent Dataset",
-                            options=dataset_list,
-                            placeholder="Select Dataset",
-                            index=None
-                        )
                     external_datasets = st.multiselect(
                         label="Select Other Datasets from where Values are imported",
                         options=dataset_list,
                         placeholder="Select Datasets"
                     )
 
+                container = st.radio("Are you going to send this dataset for container ?", options=["No", "Yes"], horizontal=True)
+                if container == "Yes":
+                    container_id = st.text_input(label="Please enter dataset part no")
 
                 dataset_review = st.button("REVIEW DATASET CHANGES", use_container_width=True)
 

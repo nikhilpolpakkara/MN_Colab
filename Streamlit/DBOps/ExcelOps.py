@@ -1,6 +1,8 @@
 import pandas as pd
-from openpyxl import load_workbook
+import openpyxl as py
+import os
 import re
+from openpyxl.utils.dataframe import dataframe_to_rows
 
 
 def excel_ref_to_indices(ref):
@@ -69,10 +71,55 @@ def get_df_from_cell_reference(sheet, ref, index=True, header=True):
         raise
 
 
+def insert_dataframes_as_tables(list_of_dicts, excel_filename='output.xlsx', sheet_name='Sheet1', orientation='vertical'):
+    wb = py.Workbook()
+    ws = wb.active
+    ws.title = sheet_name
+
+    row_counter = 1
+    col_counter = 1
+
+    # Check if the input is a list of dictionaries
+    keys = set().union(*list_of_dicts)
+    for key in keys:
+        for df_dict in list_of_dicts:
+            df = df_dict.get(key)
+            if df is not None:
+                rows = dataframe_to_rows(df, index=False, header=True)
+                for r_idx, row in enumerate(rows, 1):
+                    if orientation == 'vertical':
+                        for c_idx, value in enumerate(row, 1):
+                            ws.cell(row=row_counter + r_idx, column=col_counter, value=value)
+                    elif orientation == 'horizontal':
+                        for c_idx, value in enumerate(row, 1):
+                            ws.cell(row=row_counter, column=col_counter + c_idx, value=value)
+
+                if orientation == 'vertical':
+                    row_counter += df.shape[0] + 2  # Increase row counter for the next table and add some space
+                elif orientation == 'horizontal':
+                    col_counter += df.shape[1] + 2  # Increase column counter for the next table and add some space
+            else:
+                if orientation == 'vertical':
+                    row_counter += 2  # If a key is missing in any dictionary, leave space for it
+                elif orientation == 'horizontal':
+                    col_counter += 2  # If a key is missing in any dictionary, leave space for it
+
+        if orientation == 'vertical':
+            row_counter = 1  # Reset row counter for the next set of dataframes with different keys
+            col_counter += 2  # Add space between sets of dataframes
+        elif orientation == 'horizontal':
+            col_counter = 1  # Reset col counter for the next set of dataframes with different keys
+            row_counter += 2  # Add space between sets of dataframes
+
+    wb.save(filename=excel_filename)
+    print(f"Dataframes inserted as tables to '{excel_filename}' ({orientation} orientation) successfully.")
+
+
+
 if __name__ == "__main__":
     def get_map_df():
         file_path = "../data/T400_5N_dataset_step120.xlsx"
-        wb = load_workbook(filename=file_path, data_only=True)
+        wb = py.load_workbook(filename=file_path, data_only=True)
         ws = wb["MAPS"]
         map_table = ws.tables["KFMSWDKQ"]
         ref = map_table.ref
