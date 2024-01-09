@@ -1,13 +1,46 @@
 import pandas as pd
 from openpyxl import load_workbook
-from DBOps import ExcelOps, MongoDBOps
+from DBOps import ExcelOps, MongoDBOps, CsvOps
 from DataTools import StringTools, DfTools
 from pymongo import MongoClient
 from DBOps import TxtOps
+from tqdm import tqdm
 
 
-class ExcelDataset:
+class Dataset:
+    def __init__(self):
+        pass
+
+    def process_map_df(self, map_df):
+        map_df = map_df.dropna()
+        try:
+            map_df.columns = map_df.columns.astype("float")
+        except Exception as e:
+            print(e)
+            pass
+        map_df.reset_index(inplace=True)
+        try:
+            map_df = map_df.melt(id_vars='index', var_name='y', value_name='value')
+        except:
+            map_df = map_df.melt(id_vars='Y', var_name='y', value_name='value')
+
+        map_df.columns = ["x", "y", "value"]
+        return map_df
+
+    def process_curve_df(self, curve_df):
+        curve_df = curve_df.dropna()
+        try:
+            curve_df.columns = curve_df.columns.astype("float")
+        except Exception as e:
+            print(e)
+            pass
+        curve_df = curve_df.melt(var_name='x', value_name='value')
+        return curve_df
+
+
+class ExcelDataset(Dataset):
     def __init__(self, excel_file_path):
+        super().__init__()
         self.excel_file_path = excel_file_path
         self.dataset_name = StringTools.get_file_name_without_extension(self.excel_file_path)
         self.wb = load_workbook(excel_file_path)
@@ -15,8 +48,7 @@ class ExcelDataset:
         self.maps_ws = self.wb["MAPS"]
         self.curves_ws = self.wb["CURVES"]
         self.svp_df = None
-        self.client = None
-        self.datahandler = None
+
 
     def load_svp_df(self):
         ref = self.svp_ws.tables["SVP"].ref
@@ -36,15 +68,7 @@ class ExcelDataset:
     def get_map_document(self, map_name):
         map_table = self.maps_ws.tables[map_name]
         map_df = ExcelOps.get_df_from_cell_reference(self.maps_ws, map_table.ref)
-        map_df = map_df.dropna()
-        try:
-            map_df.columns = map_df.columns.astype("float")
-        except Exception as e:
-            print(e)
-            pass
-        map_df.reset_index(inplace=True)
-        map_df = map_df.melt(id_vars='index', var_name='y', value_name='value')
-        map_df.columns = ["x", "y", "value"]
+        map_df = self.process_map_df(map_df)
         doc = {
             "name": map_name,
             "value": map_df.to_dict(orient="records"),
@@ -59,13 +83,7 @@ class ExcelDataset:
     def get_curve_document(self, curve_name):
         curve_table = self.curves_ws.tables[curve_name]
         curve_df = ExcelOps.get_df_from_cell_reference(self.curves_ws, curve_table.ref)
-        curve_df = curve_df.dropna()
-        try:
-            curve_df.columns = curve_df.columns.astype("float")
-        except Exception as e:
-            print(e)
-            pass
-        curve_df = curve_df.melt(var_name='x', value_name='value')
+        curve_df = self.process_curve_df(curve_df)
         doc = {
             "name": curve_name,
             "value": curve_df.to_dict(orient="records"),
@@ -76,54 +94,33 @@ class ExcelDataset:
         }
         return doc
 
-    def load_mongo_client(self, client):
-        self.client = client
-        self.datahandler = MongoDBOps.MongoDBHandler(client)
-        self.datahandler.load_database("CAL")
-        self.datahandler.load_collection("DATASETS")
-
-    def check_dataset_document(self):
-        dataset_list = self.datahandler.get_field_values_from_level_1_collection(
-            field_names=["dataset_id"]
-        )
-        if self.dataset_name in dataset_list:
-            # TODO: if the dataset already exists in the database
-            return True
-        else:
-            doc = {
-                "dataset_id": self.dataset_name,
-                "hex_data": []
-            }
-            self.datahandler.add_document_to_collection(doc)
-            return False
-
-    def transfer_svp_to_mongodb(self):
+    def transfer_svp_to_mongodb(self, datahandler):
         self.load_svp_df()
-        self.datahandler.append_list_values_to_level_1_collection_list_field(
+        datahandler.append_list_values_to_level_1_collection_list_field(
             document_filter={"dataset_id": self.dataset_name},
             field_to_update="hex_data",
             new_values=self.get_svp_documents()
         )
 
-    def transfer_maps_to_mongodb(self):
+    def transfer_maps_to_mongodb(self, datahandler):
         map_documents = []
         for map_name in self.maps_ws.tables:
             map_doc = self.get_map_document(map_name)
             map_documents.append(map_doc)
 
-        self.datahandler.append_list_values_to_level_1_collection_list_field(
+        datahandler.append_list_values_to_level_1_collection_list_field(
             document_filter={"dataset_id": self.dataset_name},
             field_to_update="hex_data",
             new_values=map_documents
         )
 
-    def transfer_curves_to_mongodb(self):
+    def transfer_curves_to_mongodb(self, datahandler):
         curve_documents = []
         for curve_name in self.curves_ws.tables:
             curve_doc = self.get_curve_document(curve_name)
             curve_documents.append(curve_doc)
 
-        self.datahandler.append_list_values_to_level_1_collection_list_field(
+        datahandler.append_list_values_to_level_1_collection_list_field(
             document_filter={"dataset_id": self.dataset_name},
             field_to_update="hex_data",
             new_values=curve_documents
@@ -137,6 +134,42 @@ class MongoDBDataset:
         self.handler = MongoDBOps.MongoDBHandler(client)
         self.handler.load_database("CAL")
         self.handler.load_collection("DATASETS")
+        self.dataset_to_be_compared = None
+        self.maps = {}
+        self.curves = {}
+        self.svps = {}
+
+    def check_dataset_document(self):
+        dataset_list = self.handler.get_field_values_from_level_1_collection(
+            field_names=["dataset_id"]
+        )
+        if self.dataset_id in dataset_list:
+            # TODO: if the dataset already exists in the database
+            return True
+        else:
+            doc = {
+                "dataset_id": self.dataset_id,
+                "hex_data": []
+            }
+            self.handler.add_document_to_collection(doc)
+            return False
+
+    def get_all_variables(self):
+        variable_names = self.handler.get_field_values_from_level_2_collection(
+            collection_field_name="hex_data",
+            array_field_name="name",
+            collection_filter={"dataset_id": self.dataset_id}
+        )
+        for variable_name in tqdm(variable_names):
+            variable_doc = self.get_variable(variable_name)
+            if variable_doc["variable_type"] == "MAP":
+                self.maps[variable_name] = variable_doc
+            elif variable_doc["variable_type"] == "CURVE":
+                self.curves[variable_name] = variable_doc
+            elif variable_doc["variable_type"] == "SVP":
+                self.svps[variable_name] = variable_doc
+
+        breakpoint()
 
     def get_variable(self, variable_name):
         dataset_filter = {"dataset_id": self.dataset_id}
@@ -153,6 +186,10 @@ class MongoDBDataset:
             variable_doc["value_df"] = pd.DataFrame(variable_doc["value"])
         return variable_doc
 
+    def compare_datasets(self, dataset_to_be_compared):
+        self.dataset_to_be_compared = dataset_to_be_compared
+
+
 
 class DCMdataset:
     def __init__(self, dcm_file_path, ems = "BOSCH"):
@@ -165,6 +202,7 @@ class DCMdataset:
 
     def detect_ems(self):
         pass
+
     def get_characteristic_dcm_variables(self):
         """
         Variable names to identify and sort DCM
@@ -241,9 +279,11 @@ class DCMdataset:
                 self.map.append(variable_data)
 
 
-class CsvDataset:
+class CsvDataset(Dataset):
     def __init__(self, dataset_csv_path):
+        super().__init__()
         self.dataset_csv_path = dataset_csv_path
+        self.dataset_name = StringTools.get_file_name_without_extension(self.dataset_csv_path)
 
     def get_hex_data_old_method(self):
         ind_of_svp = []
@@ -297,10 +337,11 @@ class CsvDataset:
         svp_values_list_one = []
         maps_names_list = []
         maps_values_list_one = []
+        skip_lines = CsvOps.find_start_line(file_path=self.dataset_csv_path, keyword="FUNCTION_HDR")
         try:
-            df = pd.read_csv(self.dataset_csv_path, low_memory=False, encoding='unicode_escape')
+            df = pd.read_csv(self.dataset_csv_path, low_memory=False, encoding='unicode_escape', skiprows=skip_lines, skip_blank_lines=False)
         except:
-            df = pd.read_csv(self.dataset_csv_path)
+            df = pd.read_csv(self.dataset_csv_path, skiprows=skip_lines, skip_blank_lines=False)
 
         first_column = df[df.columns[0]]
         for i in range(len(first_column)):
@@ -502,7 +543,7 @@ class CsvDataset:
                 # except:
                 #     cols = x
                 df1 = pd.read_csv(self.dataset_csv_path, names=x, usecols=cl, skiprows=ioy_map1[i] - rows_map1[i] - 8,
-                                  nrows=rows_map1[i], low_memory=False, encoding='unicode_escape'
+                                  nrows=rows_map1[i], low_memory=False, encoding='unicode_escape', keep_default_na=False, na_filter=False
                                   )
                 df2 = df1
                 try:
@@ -522,6 +563,8 @@ class CsvDataset:
                 df_list_map1.append(df2.set_index("Y"))
             except:
                 df_list_map1.append(pd.DataFrame())
+
+            breakpoint(condition=names_map1[i] == "AirMod_facPWghCmbChmbTMdl_MAP")
 
         # to get dataframes of map2
         for i in range(len(columns_map2)):
@@ -550,7 +593,7 @@ class CsvDataset:
                 #     cols = x
 
                 df1 = pd.read_csv(self.dataset_csv_path, names=x, usecols=cl, skiprows=ioy_map2[i] - rows_map2[i] - 9,
-                                  nrows=rows_map2[i], low_memory=False, encoding='unicode_escape'
+                                  nrows=rows_map2[i], low_memory=False, encoding='unicode_escape', keep_default_na=False
                                   )
                 df2 = df1
 
@@ -587,7 +630,7 @@ class CsvDataset:
                 for j in range(columns_map3[i]):
                     cl.append(j + 1)
                 df1 = pd.read_csv(self.dataset_csv_path, usecols=cl, header=None, skiprows=iom3[i] + 2, nrows=rows_map3[i],
-                                  low_memory=False, encoding='unicode_escape', index_col=0
+                                  low_memory=False, encoding='unicode_escape', index_col=0, keep_default_na=False
                                   )
                 df2 = df1
                 df2.columns = df2.iloc[0]
@@ -651,29 +694,96 @@ class CsvDataset:
 
         return all_data
 
+    def transfer_hex_data_to_mongodb(self, hex_data, datahandler):
+        map_documents = []
+        for map_name, map_df, map_function in zip(hex_data["map_names"], hex_data["map_dfs"], hex_data["map_functions"]):
+
+            map_df = self.process_map_df(map_df)
+            map_doc = {
+            "name": map_name,
+            "value": map_df.to_dict(orient="records"),
+            "function": map_function,
+            "sub_function": "",
+            "category": "",
+            "variable_type": "MAP"
+        }
+            map_documents.append(map_doc)
+
+        datahandler.append_list_values_to_level_1_collection_list_field(
+            document_filter={"dataset_id": self.dataset_name},
+            field_to_update="hex_data",
+            new_values=map_documents
+        )
+
+        curve_documents = []
+        for curve_name, curve_df, curve_function in zip(hex_data["curve_names"], hex_data["curve_dfs"],
+                                                  hex_data["curve_functions"]):
+            curve_df = self.process_curve_df(curve_df)
+            curve_doc = {
+                "name": curve_name,
+                "value": curve_df.to_dict(orient="records"),
+                "function": "",
+                "sub_function": "",
+                "category": "",
+                "variable_type": "CURVE"
+            }
+            curve_documents.append(curve_doc)
+
+        datahandler.append_list_values_to_level_1_collection_list_field(
+            document_filter={"dataset_id": self.dataset_name},
+            field_to_update="hex_data",
+            new_values=curve_documents
+        )
+
+        svp_df = hex_data["svp"]
+        svp_df = svp_df.rename(columns={"NAME": "name", "VALUE": "value"})
+        svp_df["function"] = ""
+        svp_df["sub_function"] = ""
+        svp_df["category"] = ""
+        svp_df["variable_type"] = "SVP"
+        svp_df['value'] = svp_df['value'].apply(DfTools.convert_to_float_or_str)
+        svp_documents = svp_df.to_dict(orient="records")
+
+        datahandler.append_list_values_to_level_1_collection_list_field(
+            document_filter={"dataset_id": self.dataset_name},
+            field_to_update="hex_data",
+            new_values=svp_documents
+        )
+
 
 def transfer_dataset_excel_to_mongodb():
     # client = MongoClient("mongodb://localhost:27017")
-    dataset_excel_file_path = "../data/T400_5N_dataset_step120.xlsx",
-    client = MongoClient("mongodb://10.11.10.9:27017/")
-    dataset = ExcelDataset(dataset_excel_file_path)
-    dataset.load_mongo_client(client=client)
-    if not dataset.check_dataset_document():
-        dataset.transfer_svp_to_mongodb()
-        dataset.transfer_maps_to_mongodb()
-        dataset.transfer_curves_to_mongodb()
+    # client = MongoClient("mongodb://10.11.10.9:27017/")
+    client = MongoClient("mongodb://10.11.9.85:27017/")
+    excel_dataset = ExcelDataset(excel_file_path="../data/T400_5N_dataset_step120.xlsx")
+    mongo_dataset = MongoDBDataset(dataset_id=excel_dataset.dataset_name, client=client)
+    if not mongo_dataset.check_dataset_document():
+        excel_dataset.transfer_svp_to_mongodb(datahandler=mongo_dataset.handler)
+        excel_dataset.transfer_maps_to_mongodb(datahandler=mongo_dataset.handler)
+        excel_dataset.transfer_curves_to_mongodb(datahandler=mongo_dataset.handler)
 
 
-def read_dataset_from_mongodb():
+def transfer_dataset_from_csv_to_mongodb(dataset_csv_path, client):
+    # dataset_csv_path = "../data/T400_5N_dataset_step120.CSV"
+    csv_dataset = CsvDataset(dataset_csv_path)
+    hex_data = csv_dataset.get_hex_data_old_method()
+    mongo_dataset = MongoDBDataset(dataset_id=csv_dataset.dataset_name, client=client)
+    mongo_dataset.check_dataset_document()
+    csv_dataset.transfer_hex_data_to_mongodb(hex_data, datahandler=mongo_dataset.handler)
+
+
+def read_single_variable_from_mongodb_dataset():
     client = MongoClient("mongodb://10.11.10.9:27017/")
     dataset = MongoDBDataset(dataset_id="T400_5N_dataset_step120", client=client)
     variable_doc = dataset.get_variable("FWFTBRTA")
 
 
-def read_dataset_from_csv():
-    csv_dataset = CsvDataset(dataset_csv_path="../data/T400_5N_dataset_step120.CSV")
-    hex_data = csv_dataset.get_hex_data_old_method()
-    hex_data = csv_dataset.rearrange_data_from_old_method(data_from_old_method=hex_data)
+def compare_mongodb_datasets():
+    client = MongoClient("mongodb://10.11.9.85:27017/")
+    dataset_1 = MongoDBDataset(dataset_id="K403_A", client=client)
+    dataset_2 = MongoDBDataset(dataset_id="K403_B", client=client)
+    dataset_1.get_all_variables()
+    dataset_2.get_all_variables()
 
 
 def read_dcm_content():
@@ -685,11 +795,11 @@ def read_dcm_content():
 
 if __name__ == "__main__":
 
-    client = MongoClient("mongodb://10.11.10.9:27017/")
+    client = MongoClient("mongodb://10.11.9.85:27017/")
 
     # transfer_dataset_excel_to_mongodb()
     # read_dataset_from_mongodb()
-    # read_dataset_from_csv()
     # read_dcm_content()
-
+    transfer_dataset_from_csv_to_mongodb(dataset_csv_path="../data/K403_A.CSV", client=client)
+    # compare_mongodb_datasets()
 

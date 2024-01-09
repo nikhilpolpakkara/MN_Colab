@@ -3,6 +3,7 @@ import openpyxl as py
 import os
 import re
 from openpyxl.utils.dataframe import dataframe_to_rows
+from openpyxl.styles import Color, Font, Border
 
 
 def excel_ref_to_indices(ref):
@@ -110,10 +111,10 @@ def insert_dataframes_as_tables(list_of_dicts, excel_filename='output.xlsx', she
         elif orientation == 'horizontal':
             col_counter = 1  # Reset col counter for the next set of dataframes with different keys
             row_counter += 2  # Add space between sets of dataframes
+        print("break")
 
     wb.save(filename=excel_filename)
     print(f"Dataframes inserted as tables to '{excel_filename}' ({orientation} orientation) successfully.")
-
 
 
 if __name__ == "__main__":

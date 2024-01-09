@@ -465,10 +465,10 @@ class MongoDBErrorHandler:
 
 
 if __name__ == "__main__":
-    client = MongoClient("mongodb://10.11.10.72:27017/")
+    # client = MongoClient("mongodb://10.11.10.72:27017/")
     # client = MongoClient("mongodb://10.11.10.95:27017/")
 
-    datahandler = MongoDBHandler(client)
+    # datahandler = MongoDBHandler(client)
 
     # datahandler.load_database("testing_history")
     # datahandler.load_collection("timeline")
@@ -499,8 +499,15 @@ if __name__ == "__main__":
 
     # datahandler.transfer_collection("CAL", "DATASETS", "CAL", "dataset_log")
 
-    source_uri = client
-    destination_uri = "mongodb://localhost:27017"
-    datahandler.sync_collections(destination_uri)
+    # source_uri = client
+    # destination_uri = "mongodb://localhost:27017"
+    # datahandler.sync_collections(destination_uri)
+
+    # destination = "mongodb://10.11.10.9:27017/"
+    destination = "mongodb://10.11.9.85:27017/"
+    client = MongoClient("mongodb://10.11.8.153:27017/")
+
+    handler = MongoDBHandler(client)
+    handler.sync_collections(destination)
 
 
